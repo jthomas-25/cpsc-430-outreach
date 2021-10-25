@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <link rel="stylesheet" type=text/css" href="{% static 'job_board/employer_homepage.css' %}">
+  </head>
+  <body>
+
+    <div className="header">
+      <h1 id="logo">UMW Outreach</h1>
+      <a id="home" href="/job_board/employer/home">Home</a>
+      <a id="logout" href="/job_board/logout">Logout</a>
+    </div>
+
+    <h1>Welcome!</h1>
+    <div className=tasks">
+      <a id="create-post" href="/job_board/employer/create-post">Create Post</a>
+      <a id="view-posts" href="/job_board/employer/view-posts">View Posts</a>
+    </div>
+
+  </body>
+</html>
