@@ -1,0 +1,7 @@
+<h1><a href="/">Home</a></h1>
+<h1>{{request.session.email}}</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="save"/>
+</form>
