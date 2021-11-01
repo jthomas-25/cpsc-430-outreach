@@ -2,7 +2,7 @@
 <html>
   <head>
     {% load static %}
-    <link rel="stylesheet" type=text/css" href="{% static 'job_board/employer_posts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'job_board/employer_posts.css' %}">
   </head>
   <body>
 
@@ -13,10 +13,10 @@
     </div>
 
     <h1>My Posts</h1>
-    <ol>
+    <ol id="posts">
     {% for post in posts %}
       {% if post.status == "active" %}
-        <li>
+        <li id="post">
           {{ post.title }}
         </li>
         <br>

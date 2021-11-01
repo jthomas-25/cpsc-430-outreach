@@ -66,3 +66,35 @@ class post_create(LoginRequiredMixin,CreateView):
     #def get_object(self,queryset=None):
     #    obj = Post.objects.get(id=self.kwargs['id'])
     #    return obj
+
+#Search for posts
+@login_required
+def search_posts(request):
+    response = None
+    context = {}
+    posts = []
+    searchString = ""
+    searchButtonClicked = ""
+    currentFilter = ""
+    if request.method == "POST":
+        print(request.POST)
+        searchString = request.POST.get("q", "")
+        searchButtonClicked = request.POST.get("Search", "")
+        currentFilter = request.POST.get("filter", "")
+        #request.session["search_filter"] = currentFilter
+        # search for posts WHERE title LIKE '%[searchString]%'
+        if currentFilter == "title":
+            posts = Post.objects.all().filter(title__contains=searchString) 
+        # search for posts WHERE description LIKE '%[searchString]%'
+        elif currentFilter == "description":
+            posts = Post.objects.all().filter(description__contains=searchString)
+        for post in posts:
+            print("Title: " + post.title,
+                  "Description: " + post.description)
+
+    context["query"] = searchString
+    context["selected"] = currentFilter
+    context["searchButtonClicked"] = searchButtonClicked
+    context["posts"] = posts
+    response = render(request, "posts/search_posts.html", context)
+    return response

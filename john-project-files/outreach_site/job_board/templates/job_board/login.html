@@ -2,7 +2,7 @@
 <html>
   <head>
     {% load static %}
-    <link rel="stylesheet" type=text/css" href="{% static 'job_board/login.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'job_board/login.css' %}">
   </head>
   <body>
     
@@ -21,6 +21,8 @@
       <h3>Error: Account does not exist.</h3>
     {% elif result == "no match" %}
       <h3>Error: Incorrect password.</h3>
+    {% elif result == "blocked" %}
+      <h3>Error: Your account has been blocked.</h3>
     {% endif %}
 
   </body>

@@ -7,35 +7,69 @@ class AccountDatabase:#(models.Model)
         self.primaryKey = 0
     def size(self):
         return len(self.accounts)
-    def getAccounts(self):
+    def getTable(self):
         return self.accounts
+    def getAccounts(self):
+        return self.accounts.values()
     def getAccountByEmail(self, email):
         return self.accounts.get(email, None)
     def addAccount(self, account):
         self.accounts[account.getEmail()] = account
         self.primaryKey += 1
+    def removeAccount(self, account):
+        self.accounts.pop(account.getEmail())
+        self.primaryKey -= 1
+    def updateAccountStatus(self, account, status):
+        account.setStatus(status)
+        self.accounts[account.getEmail()] = account
 
 class PostDatabase:#(models.Model)
     def __init__(self):
         self.posts = {}
         self.primaryKey = 0
+        self.searchFuncs = {"title": self.searchByTitle,
+                            "job type": self.searchByJobType,
+                            "description": self.searchByDescription}
     def size(self):
         return len(self.posts)
+    def getTable(self):
+        return self.posts
     def getPosts(self):
         return self.posts.values()
     def getPostById(self, postId):
         return self.posts.get(postId, None)
     def getPostByAuthor(self, author):
-        for post in self.posts:
+        for post in getPosts():
             if post.getAuthor() == author:
                 return post
         return None
     def addPost(self, post):
-        self.posts[self.primaryKey] = post
+        post.setId(self.primaryKey)
+        self.posts[post.getId()] = post
         self.primaryKey += 1
     def removePost(self, post):
         self.posts.pop(post.getId())
         self.primaryKey -= 1
+    def search(self, currentFilter, searchString):
+        return self.searchFuncs[currentFilter](searchString.lower())
+    def searchByTitle(self, searchString):
+        posts = []
+        for post in self.getPosts():
+            if searchString in post.getTitle().lower():
+                posts.append(post)
+        return posts
+    def searchByJobType(self, searchString):
+        posts = []
+        for post in self.getPosts():
+            if searchString in post.getJobType().lower():
+                posts.append(post)
+        return posts
+    def searchByDescription(self, searchString):
+        posts = []
+        for post in self.getPosts():
+            if searchString in post.getDescription().lower():
+                posts.append(post)
+        return posts
 
 # accounts
 class Account:#(models.Model)
@@ -43,18 +77,23 @@ class Account:#(models.Model)
         self.email = email
         self.password = password
         self.accountType = accountType
+        self.status = "unblocked"
     def getEmail(self):
         return self.email
     def getPassword(self):
         return self.password
     def getAccountType(self):
         return self.accountType
+    def getStatus(self):
+        return self.status
     def setEmail(self, email):
         self.email = email
     def setPassword(password):
         self.password = password
     def setAccountType(self, accountType):
         self.accountType = accountType
+    def setStatus(self, status):
+        self.status = status
 
 class StudentAccount(Account):#(models.Model):
     def __init__(self, email, password):
@@ -89,6 +128,10 @@ class Post:#(models.Model)
         return self.description
     def getStatus(self):
         return self.status
+    def setId(self, id):
+        self.id = id
+    def setAuthor(self, author):
+        self.author = author
     def setTitle(self, title):
         self.title = title
     def setJobType(self, jobType):

@@ -1,6 +1,7 @@
 <h1>Welcome Home {{request.session.email}}</h1>
 <p><a href="/posts/">View Posts</a></p>
 <p><a href="/posts/create/">Create Post</a></p>
+<p><a href="/posts/search/">Search Posts</a></p>
 {% if not request.session.email %}
     <p><a href="/users/create/">Create User</a></p>
     <p><a href="/users/login/">Login User</a></p>

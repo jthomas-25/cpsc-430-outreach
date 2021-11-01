@@ -2,7 +2,7 @@
 <html>
   <head>
     {% load static %}
-    <link rel="stylesheet" type=text/css" href="{% static 'job_board/search_posts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'job_board/search_posts.css' %}">
   </head>
   <body>
 
@@ -16,26 +16,38 @@
     <form method="post">
       <!--protect against cross-site request forgeries-->
       {% csrf_token %}
-    <div className="search-bar">
-      <!--
-      <input type="text" id="search-bar" placeholder="Search by title..." value="" onkeypress="handleUpdate()">
-      -->
-      <input type="text" id="search-bar" name="q" placeholder="Search by title..." value="{% if searchButton %} {{ query }} {% endif %}">
-      <input type="submit" name="Search" value="Search">
-      <!--
-      <script>
-        function handleUpdate() {
+      <div className="search-bar">
+        <!--
+        <input type="text" id="search-bar" placeholder="Search by title..." value="" onkeypress="handleUpdate()">
+        -->
+        <input type="text"
+               id="search-bar"
+               name="q"
+               placeholder="Search by..."
+               value="{% if searchButtonClicked %}{{ query }}{% endif %}">
+        <select name="filter" id="filter">
+          <option name="title" value="title" {% if selected == "title" %} selected {% endif %}>Title</option>
+          <option name="job type" value="job type" {% if selected == "job type" %} selected {% endif %}>Job type</option>
+          <option name="description" value="description" {% if selected == "description" %} selected {% endif %}>Description</option>
+        </select>
+        <input type="submit" name="Search" value="Search">
+        <!--
+        <script>
+          function handleUpdate() {
           
-        }
-      </script>
-      -->
+          }
+        </script>
+        -->
+      </div>
     </form>
-      <ol>
-      {% if searchButton %}
+    <ul id="results">
+      {% if searchButtonClicked %}
         {% for post in posts %}
           {% if post.status == "active" %}
-            <li>
-              {{ post.title }}
+            <li id="post">
+              <a id="post-link" href="/job_board/student/view-post/?postid={{ post.id }}">
+                {{ post.title }} {{ post.jobType }} {{ post.description }}
+              </a>
             </li>
             <br>
           {% endif %}
@@ -43,8 +55,7 @@
           <p>No matches found.</p>
         {% endfor %}
       {% endif %}
-      </ol>
-    </div>
+    </ul>
 
   </body>
 </html>

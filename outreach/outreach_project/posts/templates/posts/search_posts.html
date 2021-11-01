@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/search_posts.css' %}">
+  </head>
+  <body>
+
+    <h1><a href="/">Home</a></h1>
+
+    <h1>Search Job Posts</h1>
+    <form method="post">
+      <!--protect against cross-site request forgeries-->
+      {% csrf_token %}
+      <div className="search-bar">
+        <!--
+        <input type="text" id="search-bar" placeholder="Search by title..." value="" onkeypress="handleUpdate()">
+        -->
+        <input type="text"
+               id="search-bar"
+               name="q"
+               placeholder="Search by..."
+               value="{% if searchButtonClicked %}{{ query }}{% endif %}">
+        <select name="filter" id="filter">
+          <option name="title" value="title" {% if selected == "title" %} selected {% endif %}>Title</option>
+          <option name="description" value="description" {% if selected == "description" %} selected {% endif %}>Description</option>
+        </select>
+        <input type="submit" name="Search" value="Search">
+      </div>
+    </form>
+    <ul id="results">
+      {% if searchButtonClicked %}
+        {% for post in posts %}
+          <li id="post">
+            Title: {{ post.title }} Description: {{ post.description }}
+          </li>
+          <br>
+        {% empty %}
+          <p>No matches found.</p>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+  </body>
+</html>
