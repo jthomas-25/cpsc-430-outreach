@@ -1,5 +1,5 @@
 from django.contrib.auth import login
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Post
 from users.models import CustomUser
 from django.http import HttpResponseRedirect
@@ -20,6 +20,13 @@ def post_list(request):
         'user' : user
     }
     return render(request,"posts/post_list.html",context)
+
+@login_required
+def post_mine(request):
+    user = CustomUser.objects.get(email=request.session['email'])
+    posts = user.posts.all()
+    context = {'post_list':posts,'user':user}
+    return render(request,'posts/post_mine.html',context)
 
 #Get specific info for post
 @login_required
@@ -90,20 +97,18 @@ class post_edit(UpdateView, LoginRequiredMixin):
     def handle_no_permission(self):
         return HttpResponseRedirect("/users/login/")
 
-#Post Create View
-class post_create(LoginRequiredMixin,CreateView):
-    model = Post
-    template_name = 'post_create_form.html'
-    fields = '__all__'
-    raise_exception = True
-    permission_denied_message = "You are not allowed here!"
-    success_url="/posts"
 
-    def handle_no_permission(self):
-        return HttpResponseRedirect("/users/login/")
-    #def get_object(self,queryset=None):
-    #    obj = Post.objects.get(id=self.kwargs['id'])
-    #    return obj
+@login_required
+def post_create(request):
+    if request.method == 'POST':
+        form = PostCreateForm(request.POST)
+        if form.is_valid():
+            form.instance.user_id = CustomUser.objects.get(id=request.session['user_id'])
+            form.save()
+            return redirect("/posts")
+    else:
+        form = PostCreateForm()
+    return render(request,'post_create_form.html',{'form':form})
 
 #Search for posts
 @login_required

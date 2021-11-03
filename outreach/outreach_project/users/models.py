@@ -23,6 +23,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     is_employer = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
+    
     #account_type = models.CharField(max_length=10,choices=ACCOUNT_TYPE_CHOICES)
 
     USERNAME_FIELD = 'email'

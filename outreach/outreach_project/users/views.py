@@ -12,6 +12,12 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+def user_profile(request):
+    user = CustomUser.objects.get(id=request.session['user_id'])
+    posts = user.posts.all()
+
+    return render(request,'user_profile.html',{'user':user,'posts':posts})
+
 def user_create(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -124,3 +130,5 @@ def getAccountStatus(user):
     elif user.is_blocked:
         accountStatus = "blocked"
     return accountStatus
+
+
