@@ -31,10 +31,12 @@
     <ul id="results">
       {% if searchButtonClicked %}
         {% for post in posts %}
-          <li id="post">
-            Title: {{ post.title }} Description: {{ post.description }}
-          </li>
-          <br>
+          {% if post.status == "active" %}
+            <li id="post">
+              <a href="/posts/{{post.id}}/">{{ post.title }} -- Description: {{ post.description }}</a>
+            </li>
+            <br>
+          {% endif %}
         {% empty %}
           <p>No matches found.</p>
         {% endfor %}

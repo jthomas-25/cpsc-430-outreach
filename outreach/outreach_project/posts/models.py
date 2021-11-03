@@ -5,6 +5,7 @@ from django.urls import reverse
 class Post(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
+    status = models.CharField(max_length=10, default="pending", editable=False)
 
     def __str__(self):
         return self.title

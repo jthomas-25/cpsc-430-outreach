@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/user_list.css' %}">
+  </head>
+  <body>
+
+    <h1><a href="/">Home</a></h1>
+
+    <h1>List of Users</h1>
+    <ul id="accounts">
+    {% for user in users %}
+      <li id="account">
+        {% if user.is_pending %}
+            {% if user.is_admin %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: admin | Status: pending
+                </a>
+            {% elif user.is_student %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: student | Status: pending
+                </a>
+            {% elif user.is_employer %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: employer | Status: pending
+                </a>
+            {% endif %}
+        {% elif user.is_active %}
+            {% if user.is_admin %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: admin | Status: active
+                </a>
+            {% elif user.is_student %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: student | Status: active
+                </a>
+            {% elif user.is_employer %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: employer | Status: active
+                </a>
+            {% endif %}
+        {% elif user.is_blocked %}
+            {% if user.is_admin %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: admin | Status: blocked
+                </a>
+            {% elif user.is_student %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: student | Status: blocked
+                </a>
+            {% elif user.is_employer %}
+                <a id="account-link" href="/users/view/?user={{user.id}}">
+                  {{ user.email }} | Account type: employer | Status: blocked
+                </a>
+            {% endif %}
+        {% endif %}
+      </li>
+      <br>
+    {% endfor %}
+    </ul>
+
+  </body>
+</html>

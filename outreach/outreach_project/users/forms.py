@@ -6,6 +6,7 @@ from .managers import CustomUserManager
 
 from .models import  CustomUser
 
+
 class CustomUserCreationForm(UserCreationForm):
     #email = forms.EmailField(required=True,help_text="Enter a valid email")
     

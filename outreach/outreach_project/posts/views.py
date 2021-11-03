@@ -1,26 +1,64 @@
 from django.contrib.auth import login
 from django.shortcuts import render
 from .models import Post
+from users.models import CustomUser
 from django.http import HttpResponseRedirect
-from django.views.generic.edit import DeleteView, FormView,CreateView,UpdateView
-from .forms import PostEditForm,PostCreateForm
+from django.views.generic.edit import DeleteView, FormView, CreateView, UpdateView
+from .forms import PostEditForm, PostCreateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
+
 #Get all posts
 @login_required
 def post_list(request):
     posts = Post.objects.all()
-    context = {'post_list':posts}
+    user = CustomUser.objects.get(email=request.session.get('email'))
+    context = {
+        'post_list' : posts,
+        'user' : user
+    }
     return render(request,"posts/post_list.html",context)
 
 #Get specific info for post
 @login_required
 def post_detail(request,id):
-    post = Post.objects.get(id= id)
+    post = Post.objects.get(id=id)
+    user = CustomUser.objects.get(email=request.session.get('email'))
+    
+    if request.method == "POST":
+        if user.is_employer or user.is_admin:
+            editPostButtonClicked = request.POST.get("Edit Post")
+            deletePostButtonClicked = request.POST.get("Delete Post")
+            if editPostButtonClicked:
+                return HttpResponseRedirect("/posts/edit/" + str(post.id))
+            elif deletePostButtonClicked:
+                return HttpResponseRedirect("/posts/delete/" + str(post.id))
+
+        # if admin reviewed post
+        if user.is_admin:
+            approvePostButtonClicked = request.POST.get("Approve Post")
+            denyPostButtonClicked = request.POST.get("Deny Post")
+            blockPostButtonClicked = request.POST.get("Block Post")
+            unblockPostButtonClicked = request.POST.get("Unblock Post")
+            if approvePostButtonClicked:
+                post.status = "active"
+                post.save()
+            elif denyPostButtonClicked:
+                post.delete()
+                return HttpResponseRedirect("/")
+            elif blockPostButtonClicked:
+                post.status = "blocked"
+                post.save()
+            elif unblockPostButtonClicked:
+                post.status = "active"
+                post.save()
+            #post.save()
+
     context = {
-        'post_detail' : post
+        'post_detail' : post,
+        'user' : user
     }
     return render(request,"posts/post_detail.html",context)
 
@@ -70,31 +108,37 @@ class post_create(LoginRequiredMixin,CreateView):
 #Search for posts
 @login_required
 def search_posts(request):
-    response = None
-    context = {}
     posts = []
     searchString = ""
     searchButtonClicked = ""
     currentFilter = ""
+
     if request.method == "POST":
-        print(request.POST)
         searchString = request.POST.get("q", "")
         searchButtonClicked = request.POST.get("Search", "")
         currentFilter = request.POST.get("filter", "")
-        #request.session["search_filter"] = currentFilter
-        # search for posts WHERE title LIKE '%[searchString]%'
-        if currentFilter == "title":
-            posts = Post.objects.all().filter(title__contains=searchString) 
-        # search for posts WHERE description LIKE '%[searchString]%'
-        elif currentFilter == "description":
-            posts = Post.objects.all().filter(description__contains=searchString)
-        for post in posts:
-            print("Title: " + post.title,
-                  "Description: " + post.description)
-
+        if searchString:
+            #request.session["search_filter"] = currentFilter
+            # search for posts WHERE title LIKE '%[searchString]%'
+            if currentFilter == "title":
+                posts = Post.objects.all().filter(title__contains=searchString) 
+            # search for posts WHERE description LIKE '%[searchString]%'
+            elif currentFilter == "description":
+                posts = Post.objects.all().filter(description__contains=searchString)
+            for post in posts:
+                print("Title: " + post.title,
+                      "Description: " + post.description)
+    
+    context = {
+        'query' : searchString,
+        'selected' : currentFilter,
+        'searchButtonClicked' : searchButtonClicked,
+        'posts' : posts
+    }
+    """
     context["query"] = searchString
     context["selected"] = currentFilter
     context["searchButtonClicked"] = searchButtonClicked
     context["posts"] = posts
-    response = render(request, "posts/search_posts.html", context)
-    return response
+    """
+    return render(request, "posts/search_posts.html", context)

@@ -1,6 +1,26 @@
 <h1><a href="/">Home</a></h1>
 <h1>{{request.session.email}}</h1>
-<h1>Our {{post_detail.title}} post detail</h1>
+<h1>{{post_detail.title}}</h1>
 {{post_detail.description}}
-<h2><a href="/posts/delete/{{post_detail.id}}/"> Delete Post?</a></h2>
-<h2><a href="/posts/edit/{{post_detail.id}}/">Edit Post</a></h2>
+<br><br>
+<form method="post">
+  <!--protect against cross-site request forgeries-->
+  {% csrf_token %}
+  <input type="submit" name="Edit Post" value="Edit Post">
+  <br><br>
+  <input type="submit" name="Delete Post" value="Delete Post">
+</form>
+{% if user.is_admin %}
+  <form method="post">
+    <!--protect against cross-site request forgeries-->
+    {% csrf_token %}
+    {% if post_detail.status == "pending" %}
+      <input type="submit" name="Approve Post" value="Approve Post">
+      <input type="submit" name="Deny Post" value="Deny Post">
+    {% elif post_detail.status == "active" %}
+      <input type="submit" name="Block Post" value="Block Post">
+    {% elif post_detail.status == "blocked" %}
+      <input type="submit" name="Unblock Post" value="Unblock Post">
+    {% endif %}
+  </form>
+{% endif %}
