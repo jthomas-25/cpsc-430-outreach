@@ -1,0 +1,26 @@
+<h1><a href ="/" >Home</a></h1>
+
+{%if user.is_student%}
+    <h2>Student profile for {{user.email}}</h2>
+{%elif user.is_employer%}
+    <h2>Employer profile for {{user.email}}</h2>
+{%else%}
+    <h2>User profile for {{user.email}}</h2>
+{%endif%}
+
+{%if user.is_pending%}
+    <p>Account is still pending Admin Approval</p>
+{%else%}
+    <p>Date Joined: {{user.date_joined}}</p>
+{%endif%}
+<h3>Bio</h3>
+<br/>
+
+<h2>My posts</h2>
+<ul>
+{% for post in posts %}
+    <li><a href="/posts/{{post.id}}"> {{post.title}}</li>
+
+{%endfor%}
+<ul/>
+
