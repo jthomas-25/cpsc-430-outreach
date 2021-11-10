@@ -13,7 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
     graduation_date = forms.DateField(required=False,widget=forms.SelectDateWidget())
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('email',"graduation_date")
+        fields = ('email',"graduation_date",'bio')
         widgets = {
             'graduation_date':forms.SelectDateWidget(
                 empty_label=("Choose Year","Choose Month","Choose Day"))
@@ -25,7 +25,7 @@ class CustomUserChangeForm(UserChangeForm):
     password = None
     class Meta:
         model = get_user_model()
-        fields = ['email','graduation_date']
+        fields = ['email','graduation_date','bio']
         widgets = {
             'graduation_date':forms.SelectDateWidget(
                 empty_label=("Choose Year","Choose Month","Choose Day"))

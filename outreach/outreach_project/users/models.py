@@ -25,6 +25,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     graduation_date = models.DateField(default=timezone.now,blank=True,null=True) 
+    bio = models.TextField(default="This is my bio")
     #account_type = models.CharField(max_length=10,choices=ACCOUNT_TYPE_CHOICES)
 
     USERNAME_FIELD = 'email'
