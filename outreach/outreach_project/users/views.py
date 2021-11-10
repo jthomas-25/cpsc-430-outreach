@@ -10,6 +10,9 @@ from .forms import CustomUserChangeForm, CustomUserCreationForm
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 
+# From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
+from home.templatetags import custom_tags
+
 # Create your views here.
 
 def user_profile(request):
@@ -23,6 +26,20 @@ def user_create(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            
+            #Get data from the email field
+            data = form.cleaned_data.get("email")
+            
+            #Check if email contains mail.umw.edu as the domain
+            if "@mail.umw.edu" in data:
+                
+                #Set is_student and is_employer to True
+                user.is_student() = True
+                
+            #If email contains anything but umw's domain, set employer to True
+            else:
+                user.is_employer() = True
+
             #accountType = request.GET.get("account-type")
             #request.session['account type'] = accountType
             return redirect("/users/login")
@@ -96,21 +113,24 @@ def user_detail(request):#, user_id):
     }
     return render(request,'users/user_detail.html',context)
 
+#@custom_tags.admin
 def approveAccount(user):
     user.is_pending = False
     user.is_active = True
     user.is_blocked = False
     user.save()
 
+#@custom_tags.admin
 def blockAccount(user):
     user.is_pending = False
     user.is_active = False
     user.is_blocked = True
     user.save()
 
+#@custom_tags.admin
 def unblockAccount(user):
     approveAccount(user)
-
+    
 def getAccountType(user):
     accountType = ""
     if user.is_admin:
