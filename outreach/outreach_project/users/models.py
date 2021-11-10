@@ -18,7 +18,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     is_pending = models.BooleanField(default=False)#True)
     is_active = models.BooleanField(default=True)
     is_blocked = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=True)#False)
+    is_admin = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
     is_employer = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

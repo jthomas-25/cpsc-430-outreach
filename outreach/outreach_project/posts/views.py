@@ -90,8 +90,8 @@ class post_delete(DeleteView, LoginRequiredMixin):
         return HttpResponseRedirect("/users/login/")
 
 #Post Edit View
-#@admin
-#@employer
+#@custom_tags.admin
+#@custom_tags.employer
 class post_edit(UpdateView, LoginRequiredMixin):
     model = Post
     template_name = 'post_edit_form.html'

@@ -4,13 +4,15 @@
 <h1>{{post_detail.title}}</h1>
 {{post_detail.description}}
 <br><br>
-<form method="post">
-  <!--protect against cross-site request forgeries-->
-  {% csrf_token %}
-  <input type="submit" name="Edit Post" value="Edit Post">
-  <br><br>
-  <input type="submit" name="Delete Post" value="Delete Post">
-</form>
+{% if user.id == post.user_id %}
+  <form method="post">
+    <!--protect against cross-site request forgeries-->
+    {% csrf_token %}
+    <input type="submit" name="Edit Post" value="Edit Post">
+    <br><br>
+    <input type="submit" name="Delete Post" value="Delete Post">
+  </form>
+{% endif %}
 {% if user.is_admin %}
   <form method="post">
     <!--protect against cross-site request forgeries-->

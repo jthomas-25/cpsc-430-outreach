@@ -25,7 +25,7 @@ def user_create(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user=form.save()
             
             #Get data from the email field
             data = form.cleaned_data.get("email")
@@ -34,12 +34,12 @@ def user_create(request):
             if "@mail.umw.edu" in data:
                 
                 #Set is_student and is_employer to True
-                user.is_student() = True
+                user.is_student = True
                 
             #If email contains anything but umw's domain, set employer to True
             else:
-                user.is_employer() = True
-
+                user.is_employer = True
+            user.save()
             #accountType = request.GET.get("account-type")
             #request.session['account type'] = accountType
             return redirect("/users/login")
@@ -104,6 +104,10 @@ def user_detail(request):#, user_id):
         elif unblockAccountButtonClicked:
             unblockAccount(user)
         elif deleteAccountButtonClicked:
+            if request.session.get("email") == user.email:
+                logout(request)
+                user.delete()
+                return HttpResponseRedirect("/")
             user.delete()
     
     context = {
