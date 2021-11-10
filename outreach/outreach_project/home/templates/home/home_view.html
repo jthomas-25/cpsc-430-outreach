@@ -1,5 +1,7 @@
+<html>
+<body>
+{% include "header.html" %}
 <h1>Welcome Home {{request.session.email}}</h1>
-
 
 {% if not request.session.email %}
     <p><a href="/users/create/">Create User</a></p>
@@ -15,6 +17,7 @@
         <p><a href="/posts/create/">Create Post</a></p>
         <p><a href="/posts/search/">Search Posts</a></p>
         <p><a href="/users/">View Users</a></p>
+        <p><a href="/admin_portal/">Admin Portal</a></p>
     {% endif %}
     
     {% if user.is_authenticated %}
@@ -22,3 +25,6 @@
         <p><a href = '/users/logout/'>Logout</a></p>
     {% endif %}
 {% endif %}
+
+</body>
+</html>

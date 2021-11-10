@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'posts/header.css' %}">
+</head>
+    <div class="header">
+    <h1><a class="active" href="/">UMW Connect</a></h1>
+        <div class="header-right">
+            <ul>
+            {% if user.is_employer %}
+                <li><a href="/posts/">View Posts</a></li>
+                <li><a href="/posts/create/">Create Post</a></li>
+            {% elif user.is_student %}
+                <li><a href="/posts/search/">Search Posts</a></li>
+            {% elif user.is_admin %}
+                <li><a href="/posts/">View Posts</a></p></li>
+                <li><a href="/posts/create/">Create Post</a></li>
+                <li><a href="/posts/search/">Search Posts</a></li>
+                <li><a href="/users/">View Users</a></li>
+                <li><a href="/admin_portal/">Admin Portal</a></li>
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+                <li><a href = '/users/myprofile/'>My Profile</a></li>
+                <li><a href = '/users/logout/'>Logout</a></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</html>

@@ -6,8 +6,9 @@
   </head>
   <body>
 
-    <h1><a href="/">Home</a></h1>
 
+
+  {% include "header.html" %}
     <h1 id="email">{{ user.email }}</h1>
     <h3 id="account-type">Account type: {{ accountType }}</h3>
     <div className="options">

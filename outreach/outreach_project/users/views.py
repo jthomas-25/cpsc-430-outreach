@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db.models import fields
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
+from posts.models import Post
 
 from users.admin import CustomUserAdmin
 from .models import CustomUser
@@ -160,4 +161,4 @@ def getAccountStatus(user):
         accountStatus = "blocked"
     return accountStatus
 
-
+    

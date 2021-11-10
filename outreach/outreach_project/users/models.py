@@ -16,7 +16,8 @@ ACCOUNT_TYPE_CHOICES = [
 
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(_('email address'),unique=True)
-    is_pending = models.BooleanField(default=False)#True)
+    #Set to True
+    is_pending = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_blocked = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
