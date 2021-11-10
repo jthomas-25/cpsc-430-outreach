@@ -8,6 +8,10 @@ from .forms import PostEditForm, PostCreateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+# From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
+# Type @custom_tags.student, @custom_tags.employer, @custom_tags.admin in front of function.  NOT TESTED YET
+from home.templatetags import custom_tags
+
 # Create your views here.
 
 #Get all posts
@@ -22,6 +26,7 @@ def post_list(request):
     return render(request,"posts/post_list.html",context)
 
 @login_required
+#@custom_tags.employer
 def post_mine(request):
     user = CustomUser.objects.get(email=request.session['email'])
     posts = user.posts.all()
@@ -70,6 +75,8 @@ def post_detail(request,id):
     return render(request,"posts/post_detail.html",context)
 
 #Delete Post View
+#@admin
+#@employer
 class post_delete(DeleteView, LoginRequiredMixin):
     model = Post
     template_name = 'post_confirm_delete.html'
@@ -83,6 +90,8 @@ class post_delete(DeleteView, LoginRequiredMixin):
         return HttpResponseRedirect("/users/login/")
 
 #Post Edit View
+#@admin
+#@employer
 class post_edit(UpdateView, LoginRequiredMixin):
     model = Post
     template_name = 'post_edit_form.html'
@@ -99,6 +108,7 @@ class post_edit(UpdateView, LoginRequiredMixin):
 
 
 @login_required
+#@employer
 def post_create(request):
     if request.method == 'POST':
         form = PostCreateForm(request.POST)
