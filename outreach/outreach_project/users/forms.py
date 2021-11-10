@@ -12,7 +12,7 @@ class CustomUserCreationForm(UserCreationForm):
     
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('email',)
+        fields = ('email',"graduation_date")
         
 
 class CustomUserChangeForm(UserChangeForm):
