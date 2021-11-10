@@ -1,10 +1,8 @@
 <h1><a href="/">Home</a></h1>
-{% if form.errors %}
-    {{ form.errors}}
-{% endif %}
 <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
+
 <!--
     <p>Select an account type:</p>
     <select name="account-type">

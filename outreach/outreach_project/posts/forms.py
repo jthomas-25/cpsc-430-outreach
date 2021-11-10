@@ -16,3 +16,6 @@ class PostCreateForm(forms.ModelForm):
         exclude = ['status','user_id']
         widgets = {'user_id':forms.HiddenInput()}
         success_url = reverse_lazy('posts/')
+    
+
+

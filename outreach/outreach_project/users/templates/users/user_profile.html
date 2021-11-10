@@ -2,6 +2,7 @@
 
 {%if user.is_student%}
     <h2>Student profile for {{user.email}}</h2>
+    <p>Graduation Date: {{user.graduation_date}}</p>
 {%elif user.is_employer%}
     <h2>Employer profile for {{user.email}}</h2>
 {%else%}

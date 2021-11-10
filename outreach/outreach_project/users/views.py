@@ -24,7 +24,7 @@ def user_profile(request):
 
 def user_create(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST,initial={'graduation_date':None})
         if form.is_valid():
             user=form.save()
             
@@ -50,14 +50,15 @@ def user_create(request):
 
 @login_required
 def user_edit(request,id):
+    user = CustomUser.objects.get(id=id)
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST,instance=request.user)
+        form = CustomUserChangeForm(request.POST,instance=request.user,is_student=user.is_student)
         if form.is_valid():
             user=form.save()
             request.session['email']=user.email
             return redirect("/users/myprofile/")
     else:
-        form = CustomUserChangeForm(instance=request.user)
+        form = CustomUserChangeForm(instance=request.user,is_student=user.is_student)
     return render(request,'user_change_form.html',{'form':form})
 
 #class user_create(CreateView):

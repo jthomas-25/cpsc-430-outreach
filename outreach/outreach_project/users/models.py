@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.utils import timezone
@@ -23,7 +24,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     is_employer = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-    graduation_date = models.DateTimeField(default="") 
+    graduation_date = models.DateField(default=timezone.now,blank=True,null=True) 
     #account_type = models.CharField(max_length=10,choices=ACCOUNT_TYPE_CHOICES)
 
     USERNAME_FIELD = 'email'
