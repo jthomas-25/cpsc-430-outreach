@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import fields
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
@@ -47,15 +48,17 @@ def user_create(request):
         form = CustomUserCreationForm()
     return render(request,'user_create_form.html',{'form':form})
 
-def user_edit(request):
+@login_required
+def user_edit(request,id):
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST)
+        form = CustomUserChangeForm(request.POST,instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect("/")
-        else:
-            form = CustomUserChangeForm()
-    return render(request,'user_create_form.html',{'form':form})
+            user=form.save()
+            request.session['email']=user.email
+            return redirect("/users/myprofile/")
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request,'user_change_form.html',{'form':form})
 
 #class user_create(CreateView):
 #    model = get_user_model()
@@ -109,6 +112,7 @@ def user_detail(request):#, user_id):
                 user.delete()
                 return HttpResponseRedirect("/")
             user.delete()
+            return HttpResponseRedirect("/users/")
     
     context = {
         'user': user,

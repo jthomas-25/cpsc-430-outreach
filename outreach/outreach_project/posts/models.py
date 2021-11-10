@@ -10,7 +10,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     status = models.CharField(max_length=10, default="pending", editable=False)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=CASCADE, related_name="posts")
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=CASCADE, related_name="posts",editable=False)
 
     def __str__(self):
         return self.title

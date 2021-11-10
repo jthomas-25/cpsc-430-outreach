@@ -18,7 +18,7 @@ from home.templatetags import custom_tags
 @login_required
 def post_list(request):
     posts = Post.objects.all()
-    user = CustomUser.objects.get(email=request.session.get('email'))
+    user = CustomUser.objects.get(id=request.session.get('user_id'))
     context = {
         'post_list' : posts,
         'user' : user
@@ -28,7 +28,7 @@ def post_list(request):
 @login_required
 #@custom_tags.employer
 def post_mine(request):
-    user = CustomUser.objects.get(email=request.session['email'])
+    user = CustomUser.objects.get(id=request.session['user_id'])
     posts = user.posts.all()
     context = {'post_list':posts,'user':user}
     return render(request,'posts/post_mine.html',context)
@@ -37,10 +37,11 @@ def post_mine(request):
 @login_required
 def post_detail(request,id):
     post = Post.objects.get(id=id)
-    user = CustomUser.objects.get(email=request.session.get('email'))
+    user = CustomUser.objects.get(id=request.session.get('user_id'))
+    
     
     if request.method == "POST":
-        if user.is_employer or user.is_admin:
+        if user.is_admin or user.id == post.user_id_id:
             editPostButtonClicked = request.POST.get("Edit Post")
             deletePostButtonClicked = request.POST.get("Delete Post")
             if editPostButtonClicked:

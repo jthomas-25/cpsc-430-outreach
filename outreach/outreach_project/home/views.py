@@ -5,6 +5,6 @@ from users.models import CustomUser
 def home(request):
     user = None
     if request.session.get('email') != None:
-        user = CustomUser.objects.get(email=request.session.get('email'))
+        user = CustomUser.objects.get(id=request.session.get('user_id'))
         return render(request,"home/home_view.html",{'user':user})
     return render(request,'home_view.html')
