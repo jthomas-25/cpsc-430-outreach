@@ -1,25 +1,24 @@
 .header {
     overflow: hidden;
-    background-color: #f1f1f1;
+    background-color: #e7e2e2;
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 60px;
+    height: 53px;
     text-align:center;
     display: block;
+    border: 3px solid blue;
   }
   
   /* Style the header links */
 .header a {
-    float: left;
     color: black;
     text-align: center;
     padding: 15px 10px;
     text-decoration: none;
     font-size: 20px;
-    line-height: 0px;
-    border: 1px solid black;
-    border-radius: 5px;
+    border-right: 1px solid black;
+    border-radius: 2px;
     display: block;
   }
   
@@ -30,17 +29,19 @@
   }
   
   /* Style the active/current link*/
-.header a.active {
+.header a.active{
     background-color: #4785c2;
     color: white;
   }
+
   
   /* Float the link section to the right */
 .header-right {
     float: right;
   }
 
-ul {
+.header ul {
+    overflow: hidden;
     list-style-type: none;
     position: relative;
     width: 100%;
@@ -48,6 +49,6 @@ ul {
     padding: 0;
 }
 
-li {
-    display: inline-block;
+.header li {
+    float: left;
 }

@@ -1,20 +1,33 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+
+</head>
+<body class="body">
 {% include "header.html" %}
-<h1>Admin Portal</h1>
+    <h1>Admin Portal</h1>
 
-<h2>Pending Posts</h2>
-<ul>
-    {% for post in posts %}
-    <li>
-        <p><a href="/posts/{{post.id}}">{{post.title}} --- {{post.status}}</a></p>
-    </li>
-    {% endfor %}
-</ul>
+    <h2>Pending Posts</h2>
+    <ul class="list">
+        {% for post in posts %}
+        <li>
+            <a href="/posts/{{post.id}}">{{post.title}}</a>
+            <details>
+                <summary>Description</summary>
+                {{post.description}}
+            </details>
+        </li>
+        {% endfor %}
+    </ul>
 
-<h2>Pending Users</h2>
-<ul>
-    {% for user in users %}
-    <li>
-        <p><a href="/users/view/?user={{user.id}}">{{user.email}}</a></p>
-    </li>
-    {% endfor %}
-</ul>
+    <h2>Pending Users</h2>
+    <ul class="list">
+        {% for user in users %}
+        <li>
+            <a href="/users/view/?user={{user.id}}">{{user.email}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

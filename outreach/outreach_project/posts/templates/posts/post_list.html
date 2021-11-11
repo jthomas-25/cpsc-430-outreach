@@ -1,4 +1,9 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
 
+</head>
 {% include "header.html" %}
 <h1>{{request.session.email}}</h1>
 <p><a href="/posts/create/">Create Post</a></p>
@@ -6,8 +11,15 @@
 <p><a href="/posts/search/">Search Posts</a></p>
 <h1>List of Posts</h1>
 
-<ul>
+<ul class="list">
     {% for post in post_list %}
-        <li><a href="/posts/{{post.id}}/">{{post.title}} -- Status: {{post.status}}</a></li>
+        <li>
+        <a href="/posts/{{post.id}}/">{{post.title}} -- Status: {{post.status}}</a>
+            <details>
+                <summary>Description</summary>
+                {{post.description}}
+            </details>
+        </li>
     {% endfor %}
 </ul>
+</html>

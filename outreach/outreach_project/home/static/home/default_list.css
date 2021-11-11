@@ -1,0 +1,17 @@
+.list ul{
+    list-style-type: none;
+    border: 1px solid black;
+    width: 40%;
+    margin: 0;
+    padding: 0;
+}
+
+.list li {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    padding-left: 5px;
+    list-style-type: none;
+}
+.list li:last-child {
+    border-bottom: none;
+}

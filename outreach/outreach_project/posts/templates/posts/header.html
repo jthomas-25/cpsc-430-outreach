@@ -2,12 +2,13 @@
 <html>
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'posts/header.css' %}">
+    <link rel="stylesheet" type="text/css" href='{% static  'home/header.css' %}?{% now "U" %}'>
+
 </head>
     <div class="header">
-    <h1><a class="active" href="/">UMW Connect</a></h1>
+    <ul>
+    <li><a class="active" href="/">UMW Connect</a></li>
         <div class="header-right">
-            <ul>
             {% if user.is_employer %}
                 <li><a href="/posts/">View Posts</a></li>
                 <li><a href="/posts/create/">Create Post</a></li>
@@ -25,7 +26,7 @@
                 <li><a href = '/users/myprofile/'>My Profile</a></li>
                 <li><a href = '/users/logout/'>Logout</a></li>
             {% endif %}
-            </ul>
         </div>
+    </ul>
     </div>
 </html>
