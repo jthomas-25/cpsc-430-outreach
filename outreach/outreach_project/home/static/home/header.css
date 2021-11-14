@@ -7,12 +7,12 @@
     height: 53px;
     text-align:center;
     display: block;
-    border: 3px solid blue;
+    /*border: 3px solid blue;*/
   }
   
   /* Style the header links */
 .header a {
-    color: black;
+    color: white;
     text-align: center;
     padding: 15px 10px;
     text-decoration: none;
@@ -51,4 +51,25 @@
 
 .header li {
     float: left;
+}
+
+body {
+  background-color: #002B5A;
+}
+
+.button {
+  background-color: #872434;
+  border: 1px #872434 solid;
+  border-radius: 4px;
+  height: 28px;
+  width: 110px;
+  color:white;
+  padding: 32px 32 px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin-left: 475px;
+  margin-right: -380px;
+  cursor: pointer;
 }
