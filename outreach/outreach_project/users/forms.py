@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from .managers import CustomUserManager
 
-from .models import  CustomUser
+from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):

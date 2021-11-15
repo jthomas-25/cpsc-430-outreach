@@ -1,16 +1,16 @@
+from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth import views
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.core import mail
 from django.db.models import fields
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from posts.models import Post
-
-from users.admin import CustomUserAdmin
-from .models import CustomUser
 from django.views.generic import CreateView
-from django.contrib.auth import views
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from django.contrib.auth import get_user_model, login, logout
-from django.contrib.auth.decorators import login_required
+from .models import CustomUser
+from posts.models import Post
+from users.admin import CustomUserAdmin
 
 # From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
 from home.templatetags import custom_tags
@@ -20,6 +20,8 @@ from home.templatetags import custom_tags
 def user_profile(request):
     user = CustomUser.objects.get(id=request.session['user_id'])
     posts = user.posts.all()
+    for post in posts:
+        post.date_posted = str(post.date_posted)
 
     return render(request,'user_profile.html',{'user':user,'posts':posts})
 
@@ -27,23 +29,31 @@ def user_create(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST,initial={'graduation_date':None})
         if form.is_valid():
-            user=form.save()
+            user = None#form.save()
             
             #Get data from the email field
             data = form.cleaned_data.get("email")
             
             #Check if email contains mail.umw.edu as the domain
             if "@mail.umw.edu" in data:
-                
+                pass
                 #Set is_student and is_employer to True
-                user.is_student = True
+                #user.is_student = True
                 
             #If email contains anything but umw's domain, set employer to True
             else:
-                user.is_employer = True
-            user.save()
-            #accountType = request.GET.get("account-type")
-            #request.session['account type'] = accountType
+                pass
+                #user.is_employer = True
+            #user.save()
+            # send account verification email
+            with mail.get_connection() as connection:
+                email = mail.EmailMessage(
+                    "Verify your email for UMW Connect",
+                    "This is a test email.",
+                    None,
+                    ["thomas.2010.john@gmail.com"],
+                )
+                email.send()
             return redirect("/users/login")
     else:
         form = CustomUserCreationForm()
@@ -55,8 +65,8 @@ def user_edit(request,id):
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST,instance=request.user,is_student=user.is_student)
         if form.is_valid():
-            user=form.save()
-            request.session['email']=user.email
+            user = form.save()
+            request.session['email'] = user.email
             return redirect("/users/myprofile/")
     else:
         form = CustomUserChangeForm(instance=request.user,is_student=user.is_student)

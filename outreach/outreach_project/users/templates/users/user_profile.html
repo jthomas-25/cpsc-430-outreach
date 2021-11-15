@@ -1,19 +1,19 @@
 {% include 'header.html' %}
 
-{%if user.is_student%}
+{% if user.is_student %}
     <h2>Student profile for {{user.email}}</h2>
     <p>Graduation Date: {{user.graduation_date}}</p>
-{%elif user.is_employer%}
+{% elif user.is_employer %}
     <h2>Employer profile for {{user.email}}</h2>
-{%else%}
+{% else %}
     <h2>User profile for {{user.email}}</h2>
-{%endif%}
+{% endif %}
 
-{%if user.is_pending%}
+{% if user.is_pending %}
     <p>Account is still pending Admin Approval</p>
-{%else%}
+{% else %}
     <p>Date Joined: {{user.date_joined}}</p>
-{%endif%}
+{% endif %}
 <a href="/users/edit/{{user.id}}">Edit Profile</a>
 <h3>Bio:</h3>
 <p>{{user.bio}}</p>
@@ -22,8 +22,7 @@
 <h2>My posts</h2>
 <ul>
 {% for post in posts %}
-    <li><a href="/posts/{{post.id}}"> {{post.title}}</li>
+    <li><a href="/posts/{{post.id}}"> {{post.title}} -- Date posted: {{post.date_posted}}</a></li>
 
-{%endfor%}
+{% endfor %}
 <ul/>
-

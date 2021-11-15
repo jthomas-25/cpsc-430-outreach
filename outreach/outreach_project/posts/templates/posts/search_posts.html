@@ -6,42 +6,95 @@
   </head>
   <body>
 
+    {% include "header.html" %}
 
-{% include "header.html" %}
     <h1>Search Job Posts</h1>
+
+    <h3>How do you want to search for posts?</h3>
     <form method="post">
       <!--protect against cross-site request forgeries-->
       {% csrf_token %}
-      <div className="search-bar">
-        <!--
-        <input type="text" id="search-bar" placeholder="Search by title..." value="" onkeypress="handleUpdate()">
-        -->
-        <input type="text"
-               id="search-bar"
-               name="q"
-               placeholder="Search by..."
-               value="{% if searchButtonClicked %}{{ query }}{% endif %}">
-        <select name="filter" id="filter">
-          <option name="title" value="title" {% if selected == "title" %} selected {% endif %}>Title</option>
-          <option name="description" value="description" {% if selected == "description" %} selected {% endif %}>Description</option>
-        </select>
-        <input type="submit" name="Search" value="Search">
-      </div>
+      <input type="radio"
+             id="keyword"
+             name="search-type"
+             value="Keyword"
+             {% if searchType == "Keyword" %} checked {% endif %}>
+      <label for="keyword">By keyword</label><br>
+      <input type="radio"
+             id="date-posted"
+             name="search-type"
+             value="Date Posted"
+             {% if searchType == "Date Posted" %} checked {% endif %}>
+      <label for="date-posted">By date posted</label><br><br>
+      <input type="submit" name="Submit" value="Submit"><br><br>
+    
+      {% if showSearchBar %}
+        <div className="search-bar">
+          <!--
+          <input type="text" id="search-bar" placeholder="Search by title..." value="" onkeypress="handleUpdate()">
+          -->
+          <input type="text"
+                 id="search-bar"
+                 name="q"
+                 placeholder="Search by..."
+                 value="{% if searchButtonClicked %}{{query}}{% endif %}">
+          <select name="filter" id="filter">
+            <option name="select-keyword"
+                    value="select-keyword"
+                    {% if selected == "select-keyword" %} selected {% endif %}
+            >
+            --Select Keyword--
+            </option>
+            <option name="title"
+                    value="title"
+                    {% if selected == "title" %} selected {% endif %}
+            >
+            Title
+            </option>
+            <option name="description"
+                    value="description"
+                    {% if selected == "description" %} selected {% endif %}
+            >
+            Description
+            </option>
+          </select>
+          <input type="hidden" name="search-type" value={{searchType}}>
+          <input type="submit" name="Search" value="Search"><br><br>
+        </div>
+      {% elif showDateRange %}
+        <div className="daterange">
+          <label for="datefrom">From:</label>
+          <input type="date"
+                 id="datefrom"
+                 name="datefrom"
+                 value="{{dateFrom}}"
+                 min="{{launchDate}}"
+                 max="{{currentDate}}"
+          >
+          <label for="dateto">To:</label>
+          <input type="date"
+                 id="dateto"
+                 name="dateto"
+                 value="{{dateTo}}"
+                 min="{{launchDate}}"
+                 max="{{currentDate}}"
+          >
+          <input type="submit" name="Search" value="Search"><br><br>
+        </div>
+      {% endif %}
     </form>
-    <ul id="results">
-      {% if searchButtonClicked %}
+    {% if searchButtonClicked %}
+      <ul id="results">
         {% for post in posts %}
-          {% if post.status == "active" %}
-            <li id="post">
-              <a href="/posts/{{post.id}}/">{{ post.title }} -- Description: {{ post.description }}</a>
+            <li id="post" name="post">
+              <a href="/posts/{{post.id}}/">{{post.title}} -- Description: {{post.description}} -- Date posted: {{ post.date_posted}}</a>
             </li>
             <br>
-          {% endif %}
         {% empty %}
           <p>No matches found.</p>
         {% endfor %}
-      {% endif %}
-    </ul>
+      </ul>
+    {% endif %}
 
   </body>
 </html>

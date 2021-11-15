@@ -137,3 +137,16 @@ LOGIN_URL = "/users/login/"
 LOGIN_REDIRECT_URL = "/users/login/"
 
 SESSION_COOKIE_AGE = 1800
+
+# Email
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+"""
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+"""
