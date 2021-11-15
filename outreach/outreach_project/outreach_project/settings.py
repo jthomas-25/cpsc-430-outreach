@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'home.apps.HomeConfig',
     'users.apps.UsersConfig',
-    'verify_email.apps.VerifyEmailConfig',
+    'django_email_verification',
 ]
 
 MIDDLEWARE = [
@@ -147,12 +147,26 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 """
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+def verified_callback(user):
+    user.is_active = True
+
+
+EMAIL_VERIFIED_CALLBACK = verified_callback
+EMAIL_FROM_ADDRESS = 'noreply@aliasaddress.com'
+EMAIL_MAIL_SUBJECT = 'Confirm your email'
+EMAIL_MAIL_HTML = 'mail_body.html'
+EMAIL_MAIL_PLAIN = 'mail_body.txt'
+EMAIL_TOKEN_LIFE = 60 * 60
+EMAIL_PAGE_TEMPLATE = 'confirm_template.html'
+EMAIL_PAGE_DOMAIN = 'http://127.0.0.1:8000/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PW')
+EMAIL_HOST_USER = 'outreachgroup221@gmail.com'
+EMAIL_HOST_PASSWORD = 'Cabin224!raptor'
 
-DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
 

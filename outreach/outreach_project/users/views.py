@@ -11,7 +11,7 @@ from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import CustomUser
 from posts.models import Post
 from users.admin import CustomUserAdmin
-from verify_email.email_handler import send_verification_email
+from django_email_verification import send_email
 
 # From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
 from home.templatetags import custom_tags
@@ -31,8 +31,8 @@ def user_create(request):
         form = CustomUserCreationForm(request.POST,initial={'graduation_date':None})
         if form.is_valid():
             user = form.save()
-
-            
+            user.is_active = False
+            send_email(user)
             #Get data from the email field
             #data = form.cleaned_data.get("email")
             
@@ -47,8 +47,7 @@ def user_create(request):
             #    pass
               #  active_user.is_employer = True
             user.save()
-            inactive_user = send_verification_email(request, form)
-            user = inactive_user
+
             return redirect("/users/login")
     else:
         form = CustomUserCreationForm()
