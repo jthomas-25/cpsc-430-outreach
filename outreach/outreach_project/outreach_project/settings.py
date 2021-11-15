@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'home.apps.HomeConfig',
     'users.apps.UsersConfig',
+    'verify_email.apps.VerifyEmailConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +141,7 @@ LOGIN_REDIRECT_URL = "/users/login/"
 SESSION_COOKIE_AGE = 1800
 
 # Email
-
+"""
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
@@ -149,4 +151,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-"""
+EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PW')
+
+DEFAULT_FROM_EMAIL = 'noreply<no_reply@domain.com>'
+

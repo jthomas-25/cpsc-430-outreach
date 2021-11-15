@@ -11,6 +11,7 @@ from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import CustomUser
 from posts.models import Post
 from users.admin import CustomUserAdmin
+from verify_email.email_handler import send_verification_email
 
 # From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
 from home.templatetags import custom_tags
@@ -29,31 +30,25 @@ def user_create(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST,initial={'graduation_date':None})
         if form.is_valid():
-            user = None#form.save()
+            user = form.save()
+
             
             #Get data from the email field
-            data = form.cleaned_data.get("email")
+            #data = form.cleaned_data.get("email")
             
             #Check if email contains mail.umw.edu as the domain
-            if "@mail.umw.edu" in data:
-                pass
-                #Set is_student and is_employer to True
-                #user.is_student = True
+          #  if "@mail.umw.edu" in data:
+              #  pass
+                #Set is_student or is_employer to True
+               # inactive_user.is_student = True
                 
             #If email contains anything but umw's domain, set employer to True
-            else:
-                pass
-                #user.is_employer = True
-            #user.save()
-            # send account verification email
-            with mail.get_connection() as connection:
-                email = mail.EmailMessage(
-                    "Verify your email for UMW Connect",
-                    "This is a test email.",
-                    None,
-                    ["thomas.2010.john@gmail.com"],
-                )
-                email.send()
+            #else:
+            #    pass
+              #  active_user.is_employer = True
+            user.save()
+            inactive_user = send_verification_email(request, form)
+            user = inactive_user
             return redirect("/users/login")
     else:
         form = CustomUserCreationForm()
