@@ -1,11 +1,16 @@
 <html>
 <body>
 {% include "header.html" %}
-<h1>Welcome Home {{request.session.email}}</h1>
+
+<h1 style="font-size: 50px; text-align: center; color:white; font-family:Times New Roman">
+    Welcome Home {{request.session.email}}
+</h1>
 
 {% if not request.session.email %}
-    <p><a href="/users/create/">Create User</a></p>
-    <p><a href="/users/login/">Login User</a></p>
+    <p>
+        <a href="/users/create/" class="button">Create User</a>
+        <a href="/users/login/" class="button">Login User</a>
+    </p>
 {% else %}
     {% if user.is_employer %}
         <p><a href="/posts/">View Posts</a></p>
