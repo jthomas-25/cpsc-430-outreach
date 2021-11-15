@@ -1,8 +1,20 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'home/form.css' %}?{% now "U" %}'>
 
+</head>
 {% include "header.html" %}
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
+{% for field in form %}
+    <label class="field_title">{{field.label }}</label>
+    <br>
+    {{field}}
+    <br>
+{% endfor %}
+    <input type="submit" value="Submit"/>
+</form>
 
 <!--
     <p>Select an account type:</p>
@@ -12,5 +24,4 @@
       <option name="admin" value="admin">Admin</option>
     </select>
 -->
-    <input type="submit" value="submit"/>
-</form>
+</html>

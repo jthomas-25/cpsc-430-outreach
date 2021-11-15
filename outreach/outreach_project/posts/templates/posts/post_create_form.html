@@ -1,8 +1,24 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'home/form.css' %}?{% now "U" %}'>
+
+</head>
+
 {% include "header.html" %}
 
-<h1>{{request.session.email}}</h1>
+<h1 class="form_title">Create Post</h1>
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="save"/>
+{% for field in form %}
+    <label class="field_title">{{field.label }}</label>
+    <br>
+    {{field}}
+    <br>
+{% endfor %}
+    <input type="submit" value="Save"/>
 </form>
+
+
+
+</html>

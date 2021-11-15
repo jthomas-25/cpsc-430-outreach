@@ -29,31 +29,32 @@ def user_create(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST,initial={'graduation_date':None})
         if form.is_valid():
-            user = None#form.save()
+            #user = None
+            user= form.save()
             
             #Get data from the email field
             data = form.cleaned_data.get("email")
             
             #Check if email contains mail.umw.edu as the domain
             if "@mail.umw.edu" in data:
-                pass
+                #pass
                 #Set is_student and is_employer to True
-                #user.is_student = True
+                user.is_student = True
                 
             #If email contains anything but umw's domain, set employer to True
             else:
-                pass
-                #user.is_employer = True
-            #user.save()
+                #pass
+                user.is_employer = True
+            user.save()
             # send account verification email
-            with mail.get_connection() as connection:
-                email = mail.EmailMessage(
-                    "Verify your email for UMW Connect",
-                    "This is a test email.",
-                    None,
-                    ["thomas.2010.john@gmail.com"],
-                )
-                email.send()
+            #with mail.get_connection() as connection:
+            #    email = mail.EmailMessage(
+            #        "Verify your email for UMW Connect",
+            #        "This is a test email.",
+            #        None,
+            #        ["thomas.2010.john@gmail.com"],
+            #    )
+            #    email.send()
             return redirect("/users/login")
     else:
         form = CustomUserCreationForm()

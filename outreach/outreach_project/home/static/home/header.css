@@ -12,7 +12,7 @@
   
   /* Style the header links */
 .header a {
-    color: white;
+    color: black;
     text-align: center;
     padding: 15px 10px;
     text-decoration: none;
@@ -31,7 +31,7 @@
   /* Style the active/current link*/
 .header a.active{
     background-color: #4785c2;
-    color: white;
+    color: black;
   }
 
   
@@ -55,6 +55,10 @@
 
 body {
   background-color: #002B5A;
+  color: lightgray;
+}
+body a{
+  color: lightgray;
 }
 
 .button {
