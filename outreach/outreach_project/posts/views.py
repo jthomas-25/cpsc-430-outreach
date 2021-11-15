@@ -1,12 +1,13 @@
 from django.contrib.auth import login
-from django.shortcuts import redirect, render
-from .models import Post
-from users.models import CustomUser
-from django.http import HttpResponseRedirect
-from django.views.generic.edit import DeleteView, FormView, CreateView, UpdateView
-from .forms import PostEditForm, PostCreateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.views.generic.edit import DeleteView, FormView, CreateView, UpdateView
+from .forms import PostEditForm, PostCreateForm
+from .models import Post
+from users.models import CustomUser
+import datetime
 
 # From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
 # Type @custom_tags.student, @custom_tags.employer, @custom_tags.admin in front of function.  NOT TESTED YET
@@ -45,9 +46,9 @@ def post_detail(request,id):
             editPostButtonClicked = request.POST.get("Edit Post")
             deletePostButtonClicked = request.POST.get("Delete Post")
             if editPostButtonClicked:
-                return HttpResponseRedirect("/posts/edit/" + str(post.id))
+                return redirect("/posts/edit/" + str(post.id))
             elif deletePostButtonClicked:
-                return HttpResponseRedirect("/posts/delete/" + str(post.id))
+                return redirect("/posts/delete/" + str(post.id))
 
         # if admin reviewed post
         if user.is_admin:
@@ -60,7 +61,7 @@ def post_detail(request,id):
                 post.save()
             elif denyPostButtonClicked:
                 post.delete()
-                return HttpResponseRedirect("/")
+                return redirect("/")
             elif blockPostButtonClicked:
                 post.status = "blocked"
                 post.save()
@@ -88,7 +89,7 @@ class post_delete(DeleteView, LoginRequiredMixin):
         obj = Post.objects.get(id=self.kwargs['id'])
         return obj
     def handle_no_permission(self):
-        return HttpResponseRedirect("/users/login/")
+        return redirect("/users/login/")
 
 #Post Edit View
 #@custom_tags.admin
@@ -105,7 +106,7 @@ class post_edit(UpdateView, LoginRequiredMixin):
         obj = Post.objects.get(id=self.kwargs['id'])
         return obj
     def handle_no_permission(self):
-        return HttpResponseRedirect("/users/login/")
+        return redirect("/users/login/")
 
 
 @login_required
@@ -124,37 +125,74 @@ def post_create(request):
 #Search for posts
 @login_required
 def search_posts(request):
-    posts = []
-    searchString = ""
+    context = {}
+    searchType = ""
     searchButtonClicked = ""
-    currentFilter = ""
+    posts = []
 
     if request.method == "POST":
-        searchString = request.POST.get("q", "")
-        searchButtonClicked = request.POST.get("Search", "")
-        currentFilter = request.POST.get("filter", "")
-        if searchString:
-            #request.session["search_filter"] = currentFilter
-            # search for posts WHERE title LIKE '%[searchString]%'
-            if currentFilter == "title":
-                posts = Post.objects.all().filter(title__contains=searchString) 
-            # search for posts WHERE description LIKE '%[searchString]%'
-            elif currentFilter == "description":
-                posts = Post.objects.all().filter(description__contains=searchString)
-            for post in posts:
-                print("Title: " + post.title,
-                      "Description: " + post.description)
+        print("request.POST = {")
+        for key, value in request.POST.items():
+            print(" " * 4 + key + ": " + str(value))
+        print("}")
+        searchType = request.POST.get("search-type")
+        if searchType == "Keyword":
+            context['showSearchBar'] = True
+            context['showDateRange'] = False
+            searchButtonClicked = request.POST.get("Search")
+            if searchButtonClicked:
+                searchString = request.POST.get("q")
+                currentFilter = request.POST.get("filter")
+                context['query'] = searchString
+                context['selected'] = currentFilter
+                if searchString:
+                    # search for posts WHERE title LIKE '%[searchString]%'
+                    if currentFilter == "title":
+                        posts = Post.objects.all().filter(title__contains=searchString) 
+                    # search for posts WHERE description LIKE '%[searchString]%'
+                    elif currentFilter == "description":
+                        posts = Post.objects.all().filter(description__contains=searchString)
+        
+        elif searchType == "Date Posted":
+            context['showDateRange'] = True
+            context['showSearchBar'] = False
+            currentDate = datetime.date.today()
+            launchDate = currentDate - datetime.timedelta(7)    # one week ago
+            context['currentDate'] = str(currentDate)   # "YYYY-MM-DD"
+            context['launchDate'] = str(launchDate)
+
+            searchButtonClicked = request.POST.get("Search")
+            if searchButtonClicked:
+                context['dateFrom'] = request.POST.get("datefrom")
+                context['dateTo'] = request.POST.get("dateto")
+                if request.POST.get("datefrom") and request.POST.get("dateto"):
+                    dateFrom = datetime.date.fromisoformat(request.POST.get("datefrom"))
+                    dateTo = datetime.date.fromisoformat(request.POST.get("dateto"))
+            
+                    # get number of days
+                    #dateRange = datetime.timedelta(dateTo.day-dateFrom.day).days
+            
+                    # get all posts in the specified range
+                    posts = Post.objects.all().filter(date_posted__range=(dateFrom, dateTo))
+                    for post in posts:
+                        post.date_posted = str(post.date_posted)
+            
+        # print results for debugging
+        for post in posts:
+            print("Title: " + post.title,
+                  "Description: " + post.description,
+                  "Date Posted: " + str(post.date_posted))
+    else:
+        context['showSearchBar'] = False
+        context['showDateRange'] = False
     
-    context = {
-        'query' : searchString,
-        'selected' : currentFilter,
-        'searchButtonClicked' : searchButtonClicked,
-        'posts' : posts
-    }
-    """
-    context["query"] = searchString
-    context["selected"] = currentFilter
-    context["searchButtonClicked"] = searchButtonClicked
-    context["posts"] = posts
-    """
+    context['searchType'] = searchType
+    context['searchButtonClicked'] = searchButtonClicked
+    context['posts'] = posts
+
+    print("context = {")
+    for key, value in context.items():
+        print(" " * 4 + key + ": " + str(value))
+    print("}")
+
     return render(request, "posts/search_posts.html", context)

@@ -8,12 +8,6 @@ from .managers import CustomUserManager
 
 # Create your models here.
 
-ACCOUNT_TYPE_CHOICES = [
-    ('student', 'Student'),
-    ('employer', 'Employer'),
-    ('admin', 'Admin'),
-]
-
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(_('email address'),unique=True)
     #Set to True
@@ -27,7 +21,6 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     graduation_date = models.DateField(default=timezone.now,blank=True,null=True) 
     bio = models.TextField(default="This is my bio")
-    #account_type = models.CharField(max_length=10,choices=ACCOUNT_TYPE_CHOICES)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

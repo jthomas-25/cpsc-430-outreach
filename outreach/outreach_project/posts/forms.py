@@ -8,13 +8,16 @@ class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
         #fields = "__all__"
-        exclude = ['status','user_id']
+        exclude = ['status','user_id', 'date_posted']
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         #fields = "__all__"
-        exclude = ['status','user_id']
-        widgets = {'user_id':forms.HiddenInput()}
+        exclude = ['status','user_id', 'date_posted']
+        widgets = {
+            'user_id':forms.HiddenInput(),
+            'date_posted':forms.DateInput()
+        }
         success_url = reverse_lazy('posts/')
     
 
