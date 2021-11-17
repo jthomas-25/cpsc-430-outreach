@@ -13,13 +13,49 @@
 
 <ul class="list">
     {% for post in post_list %}
-        <li>
-        <a href="/posts/{{post.id}}/">{{post.title}} -- Status: {{post.status}}</a>
-            <details>
-                <summary>Description</summary>
-                {{post.description}}
-            </details>
+        <li class="list_items">
+        <input id="expandable" class="toggle" type="checkbox">
+        <label for="expandable" class="lbl_toggle">{{post.title}}</label>
+
+        <div class="collapsable_content">
+            <a href="/posts/{{post.id}}/">{{post.title}} -- Status: {{post.status}}</a>
+            <p>Description</p>
+            <p>{{post.description}}</p>
+
+       </div>
         </li>
     {% endfor %}
 </ul>
+
+
+<script type="text/javascript">
+    var allLists = document.getElementsByTagName('label');
+    
+    for(var x = 0; x < allLists.length; x++)
+    {
+        allLists[x].onclick=function()
+        {
+            if(this.parentNode)
+            {
+                var childList = this.parentNode.getElementsByClassName('collapsable_content');
+                console.log(this.nodeName)
+
+                console.log(this.parentNode)
+                console.log(childList)
+                for(var y = 0; y< childList.length;y++)
+                {
+                    var currentState = childList[y].style.display;
+                    if(currentState=="block")
+                    {
+                        childList[y].style.display="none";
+                    }
+                    else
+                    {
+                        childList[y].style.display="block";
+                    }
+                }
+            }
+        }
+    }
+    </script>
 </html>

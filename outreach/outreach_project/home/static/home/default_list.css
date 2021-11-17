@@ -1,17 +1,42 @@
 .list ul{
     list-style-type: none;
-    border: 1px solid black;
+    border: 1px solid white;
     width: 40%;
     margin: 0;
     padding: 0;
 }
 
-.list li {
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
+.list_items  {
+    border-bottom: 1px solid white;
+    border-left: 1px solid white;
     padding-left: 5px;
     list-style-type: none;
+    font-size: 30px;
+    padding-bottom: 10px;
 }
-.list li:last-child {
+.list_items:last-child {
     border-bottom: none;
 }
+.toggle {
+    display: none;
+}
+
+.lbl_toggle {
+    display: block;
+}
+.collapsable_content {
+    display: none;
+}
+/*
+.collapsable_content {
+    max-height: 0px;
+    overflow: hidden;
+
+    transition: max-height .25s ease-in-out;
+}
+
+.toggle:checked + .lbl_toggle + .collapsable_content {
+    max-height: 100vh;
+}
+
+*/
