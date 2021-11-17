@@ -2,7 +2,8 @@
 <html>
   <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'posts/search_posts.css' %}">
+  <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+
   </head>
   <body>
 
@@ -37,7 +38,8 @@
                  id="search-bar"
                  name="q"
                  placeholder="Search by..."
-                 value="{% if searchButtonClicked %}{{query}}{% endif %}">
+                 value="{% if searchButtonClicked %}{{query}}{% endif %}"
+                 style="width: 300px;">
           <select name="filter" id="filter">
             <option name="select-keyword"
                     value="select-keyword"
@@ -84,17 +86,52 @@
       {% endif %}
     </form>
     {% if searchButtonClicked %}
-      <ul id="results">
-        {% for post in posts %}
-            <li id="post" name="post">
-              <a href="/posts/{{post.id}}/">{{post.title}} -- Description: {{post.description}} -- Date posted: {{ post.date_posted}}</a>
-            </li>
-            <br>
-        {% empty %}
-          <p>No matches found.</p>
-        {% endfor %}
+      <ul class="list">
+          {% for post in posts %}
+              <li class="list_items">
+              <input id="expandable" class="toggle" type="checkbox">
+              <label for="expandable" class="lbl_toggle">{{post.title}}</label>
+
+              <div class="collapsable_content">
+                  <a href="/posts/{{post.id}}/">{{post.title}} -- Status: {{post.status}}</a>
+                  <p>Description</p>
+                  <p>{{post.description}}</p>
+
+            </div>
+              </li>
+          {% endfor %}
       </ul>
     {% endif %}
 
   </body>
+<script type="text/javascript">
+    var allLists = document.getElementsByTagName('label');
+    
+    for(var x = 0; x < allLists.length; x++)
+    {
+        allLists[x].onclick=function()
+        {
+            if(this.parentNode)
+            {
+                var childList = this.parentNode.getElementsByClassName('collapsable_content');
+                console.log(this.nodeName)
+
+                console.log(this.parentNode)
+                console.log(childList)
+                for(var y = 0; y< childList.length;y++)
+                {
+                    var currentState = childList[y].style.display;
+                    if(currentState=="block")
+                    {
+                        childList[y].style.display="none";
+                    }
+                    else
+                    {
+                        childList[y].style.display="block";
+                    }
+                }
+            }
+        }
+    }
+    </script>
 </html>

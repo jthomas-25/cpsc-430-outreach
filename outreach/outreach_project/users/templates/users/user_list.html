@@ -2,65 +2,73 @@
 <html>
   <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'users/user_list.css' %}">
+     <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+
   </head>
   <body>
 
 
   {% include "header.html" %}
-    <h1>List of Users</h1>
-    <ul id="accounts">
+  <h1>List of Users </h1>
+<ul class="list">
     {% for user in users %}
-      <li id="account">
-        {% if user.is_pending %}
-            {% if user.is_admin %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: admin | Status: pending
-                </a>
-            {% elif user.is_student %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: student | Status: pending
-                </a>
-            {% elif user.is_employer %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: employer | Status: pending
-                </a>
-            {% endif %}
-        {% elif user.is_active %}
-            {% if user.is_admin %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: admin | Status: active
-                </a>
-            {% elif user.is_student %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: student | Status: active
-                </a>
-            {% elif user.is_employer %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: employer | Status: active
-                </a>
-            {% endif %}
-        {% elif user.is_blocked %}
-            {% if user.is_admin %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: admin | Status: blocked
-                </a>
-            {% elif user.is_student %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: student | Status: blocked
-                </a>
-            {% elif user.is_employer %}
-                <a id="account-link" href="/users/view/?user={{user.id}}">
-                  {{ user.email }} | Account type: employer | Status: blocked
-                </a>
-            {% endif %}
+        <li class="list_items">
+        <input id="expandable" class="toggle" type="checkbox">
+        <label for="expandable" class="lbl_toggle">{{user.email}}</label>
 
-        
-        {% endif %}
-      </li>
-      <br>
+        <div class="collapsable_content">
+            <a href="/users/view/?user={{user.id}}">View User </a>
+            {% if user.is_pending %}
+              <p>Status: Pending</p>
+            {% else %}
+              <p>Status: Active</p>
+            {% endif %}
+            {% if user.is_admin %}
+              <p>Account Type: Admin</p>
+            {% elif user.is_student %}
+              <p>Account Type: Student</p>
+            {% else %}
+              <p>Account Type: Employer</p>
+            {% endif %}
+            <p>Bio:</p>
+            <p>{{user.bio}}</p>
+
+       </div>
+        </li>
     {% endfor %}
-    </ul>
+</ul>
 
-  </body>
+</body>
+
+<script type="text/javascript">
+    var allLists = document.getElementsByTagName('label');
+    
+    for(var x = 0; x < allLists.length; x++)
+    {
+        allLists[x].onclick=function()
+        {
+            if(this.parentNode)
+            {
+                var childList = this.parentNode.getElementsByClassName('collapsable_content');
+                console.log(this.nodeName)
+
+                console.log(this.parentNode)
+                console.log(childList)
+                for(var y = 0; y< childList.length;y++)
+                {
+                    var currentState = childList[y].style.display;
+                    if(currentState=="block")
+                    {
+                        childList[y].style.display="none";
+                    }
+                    else
+                    {
+                        childList[y].style.display="block";
+                    }
+                }
+            }
+        }
+    }
+    </script>
+
 </html>

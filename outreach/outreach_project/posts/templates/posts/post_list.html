@@ -15,12 +15,11 @@
     {% for post in post_list %}
         <li class="list_items">
         <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">{{post.title}}</label>
+        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}}</label>
 
         <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/">{{post.title}} -- Status: {{post.status}}</a>
-            <p>Description</p>
-            <p>{{post.description}}</p>
+            <a href="/posts/{{post.id}}/">View Post </a>
+            <p>Description: {{post.description}}</p>
 
        </div>
         </li>

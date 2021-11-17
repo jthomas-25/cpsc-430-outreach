@@ -9,25 +9,67 @@
     <h1>Admin Portal</h1>
 
     <h2>Pending Posts</h2>
-    <ul class="list">
-        {% for post in posts %}
-        <li>
-            <a href="/posts/{{post.id}}">{{post.title}}</a>
-            <details>
-                <summary>Description</summary>
-                {{post.description}}
-            </details>
+<ul class="list">
+     {% for post in posts %}
+        <li class="list_items">
+        <input id="expandable" class="toggle" type="checkbox">
+        <label for="expandable" class="lbl_toggle">{{post.title}}</label>
+
+        <div class="collapsable_content">
+            <a href="/posts/{{post.id}}/">View Post</a>
+            <p>Description</p>
+            <p>{{post.description}}</p>
+
+       </div>
         </li>
-        {% endfor %}
-    </ul>
+    {% endfor %}
+</ul>
 
     <h2>Pending Users</h2>
     <ul class="list">
         {% for user in users %}
-        <li>
-            <a href="/users/view/?user={{user.id}}">{{user.email}}</a>
+        <li class = "list_items">
+        <input id="expandable" class="toggle" type="checkbox">
+        <label for="expandable" class="lbl_toggle">{{user.email}}</label>
+        <div class="collapsable_content">
+            <a href="/users/view/?user={{user.id}}">View User</a>
+            <p>Bio</p>
+            <p>{{user.bio}}</p>
+        </div>
         </li>
         {% endfor %}
     </ul>
 </body>
+
+<script type="text/javascript">
+    var allLists = document.getElementsByTagName('label');
+    
+    for(var x = 0; x < allLists.length; x++)
+    {
+        allLists[x].onclick=function()
+        {
+            if(this.parentNode)
+            {
+                var childList = this.parentNode.getElementsByClassName('collapsable_content');
+                console.log(this.nodeName)
+
+                console.log(this.parentNode)
+                console.log(childList)
+                for(var y = 0; y< childList.length;y++)
+                {
+                    var currentState = childList[y].style.display;
+                    if(currentState=="block")
+                    {
+                        childList[y].style.display="none";
+                    }
+                    else
+                    {
+                        childList[y].style.display="block";
+                    }
+                }
+            }
+        }
+    }
+    </script>
+
 </html>

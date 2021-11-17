@@ -16,7 +16,7 @@ from users.admin import CustomUserAdmin
 from home.templatetags import custom_tags
 
 # Create your views here.
-
+@login_required
 def user_profile(request):
     user = CustomUser.objects.get(id=request.session['user_id'])
     posts = user.posts.all()
@@ -97,6 +97,7 @@ def user_logout(request):
     return HttpResponseRedirect('/')
 
 #Get all users
+@login_required
 def user_list(request):
     users = CustomUser.objects.all()
     return render(request,'users/user_list.html',{'users':users})
