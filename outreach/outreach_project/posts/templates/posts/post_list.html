@@ -15,7 +15,10 @@
     {% for post in post_list %}
         <li class="list_items">
         <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}}</label>
+        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}} 
+            -- Job Type: {{post.job_type}}
+
+        </label>
 
         <div class="collapsable_content">
             <a href="/posts/{{post.id}}/">View Post </a>
@@ -37,6 +40,7 @@
             if(this.parentNode)
             {
                 var childList = this.parentNode.getElementsByClassName('collapsable_content');
+                var list = this.parentNode.getElementsByClassName('list_items');
                 console.log(this.nodeName)
 
                 console.log(this.parentNode)
@@ -51,6 +55,14 @@
                     else
                     {
                         childList[y].style.display="block";
+                    }
+                    childList[y].onclick = function() { 
+                        var curr = this.style.display;
+                        if(curr=="block"){
+                            this.style.display="none";
+                        }else{
+                            this.style.display="block";
+                        }
                     }
                 }
             }

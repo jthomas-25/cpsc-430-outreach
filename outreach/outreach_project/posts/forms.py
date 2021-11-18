@@ -4,6 +4,12 @@ from django.forms.widgets import HiddenInput
 from .models import Post
 from django.urls import reverse_lazy
 
+job_types = [
+    ('babysitting','Babysitting'),
+    ('tutoring','Tutoring'),
+    ('petsitting','Petsitting')
+]
+
 class PostEditForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -16,7 +22,8 @@ class PostCreateForm(forms.ModelForm):
         exclude = ['status','user_id', 'date_posted']
         widgets = {
             'user_id':forms.HiddenInput(),
-            'date_posted':forms.DateInput()
+            'date_posted':forms.DateInput(),
+            'job_type': forms.Select(choices=job_types)
         }
         success_url = reverse_lazy('posts/')
     

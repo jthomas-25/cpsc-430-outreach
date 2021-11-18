@@ -13,7 +13,13 @@
 {% for field in form %}
     <label class="field_title">{{field.label }}</label>
     <br>
-    {{field}}
+    {% if field.label == "Job type" %}
+    <div class="dropdown">
+        {{field}}
+    </div>
+    {% else %}
+        {{field}}
+    {% endif %}
     <br>
 {% endfor %}
     <input type="submit" value="Save"/>

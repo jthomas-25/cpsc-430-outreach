@@ -10,6 +10,14 @@ form{
     margin: 10px 0;
     
 }
+input {
+    padding:12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    background-color: #002B5A;
+    color: white;
+}
 
 input[type=date] {
     width: 500px;
@@ -17,10 +25,6 @@ input[type=date] {
 input[type=text],input[type=email],input[type=password]{
     width: 300px;
     height: 50px;
-    padding: 12px ;
-    margin: 8px 4px;
-    background-color: #002B5A;
-    color: white;
     border: none;
     border-bottom: 2px solid white;
     border-bottom-right-radius: 8px;
@@ -34,6 +38,10 @@ select[name^="graduation"]{
     background-color: #002B5A;
     color: white;
     border-radius: 4px;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
 }
 textarea{
     width: 300px;
@@ -61,5 +69,22 @@ input[type=submit]{
     border: 2px solid white;
     border-radius: 10px;
     cursor: pointer;
+    display: inline-block;
 }
 
+.dropdown select{
+    background-color: #002B5A;
+    color: white;
+    width: 200px;
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 15px;
+    position:relative;
+    display: inline-block;
+}
+
+.dropdown option {
+    padding: 12px;
+    margin: 5px;
+
+}

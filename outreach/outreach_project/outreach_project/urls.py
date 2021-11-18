@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/',include('posts.urls')),
     path('users/',include('users.urls')),
-    path('',include('home.urls'))
+    path('',include('home.urls')),
+    #(r'media/(?P<path>.*)$', 'django.views.static.serve',)
 ]

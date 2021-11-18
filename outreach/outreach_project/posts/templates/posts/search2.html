@@ -1,0 +1,126 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'home/search.css' %}?{% now "U" %}'>
+
+</head>
+
+{% include "header.html" %}
+<h1>Search Listings</h1>
+
+<form class="search_form" action="{% url 'search' %}" method="get">
+    <select name="f" class="filter">
+        
+        <option value="none">Filter By</option>
+        {% if last_filter == "title" %}
+            <option value="title" selected>Title</option>
+        {% else %}
+            <option value="title">Title</option>
+        {% endif %}
+        {% if last_filter == "description" %}
+            <option value="description" selected>Job Description</option>
+        {% else %}
+            <option value="description">Job Description</option>
+        {% endif %}
+        {% if last_filter == "type" %}
+            <option value="type" selected>Job Type</option>
+        {% else %}
+            <option value="type">Job Type</option>
+        {% endif %}
+
+    </select>
+    {% if last_search == "Search..." %}
+        <input class="search_bar" name="q" type="text" placeholder={{last_search}}>
+    {% else %}
+        <input class="search_bar" name="q" type="text" onclick="this.select();" value={{last_search}}>
+    {% endif %}
+
+    <input class="search_button" type="submit" value=" "> 
+    <select name="d" class="date_filter">
+        
+        <option value="none"> Posted within</option>
+        {% if last_date == "lastday" %}
+            <option value="lastday" selected>Last Day</option>
+        {% else %}
+            <option value="lastday">Last Day</option>
+        {% endif %}
+        {% if last_date == "lastweek" %}
+            <option value="lastweek" selected>Last Week</option>
+        {% else %}
+            <option value="lastweek">Last Week</option>
+        {% endif %}
+        {% if last_date == "lastmonth" %}
+            <option value="lastmonth" selected>Last Month</option>
+        {% else %}
+            <option value="lastmonth">Last Month</option>
+        {% endif %}
+
+    </select>
+
+</form>
+
+<div class="results_container">
+{% if results == "no_results" %}
+    <p>Your search returned no results</p>
+{% elif results == "empty" %}
+
+{% else %}
+<h3>Search Results</h3>
+<ul class="list">
+    {% for post in results %}
+        <li class="list_items">
+        <input id="expandable" class="toggle" type="checkbox">
+        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}} 
+            -- Job Type: {{post.job_type}}
+
+        </label>
+
+        <div class="collapsable_content" onclick="click()">
+            <a href="/posts/{{post.id}}/">View Post </a>
+            <p>Description: {{post.description}}</p>
+
+       </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+</div>
+
+<script type="text/javascript">
+    var allLists = document.getElementsByClassName('lbl_toggle');
+    
+    for(var x = 0; x < allLists.length; x++)
+    {
+        allLists[x].onclick= function click()
+        {
+            if(this.parentNode)
+            {
+                var childList = this.parentNode.getElementsByClassName('collapsable_content');
+                for(var y = 0; y< childList.length;y++)
+                {
+                    var currentState = childList[y].style.display;
+                    if(currentState=="block")
+                    {
+                        childList[y].style.display="none";
+                    }
+                    else
+                    {
+                        childList[y].style.display="block";
+                    }
+                    childList[y].onclick = function() { 
+                        var curr = this.style.display;
+                        if(curr=="block"){
+                            this.style.display="none";
+                        }else{
+                            this.style.display="block";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    </script>
+
+</html>

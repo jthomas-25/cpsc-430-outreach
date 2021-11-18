@@ -1,12 +1,69 @@
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
 
+</head>
 {% include "header.html" %}
 <h1>{{request.session.email}}</h1>
 <p><a href="/posts/create/">Create Post</a></p>
 <h1>My Posts</h1>
 
-<ul>
-    {% for list in post_list%}
-        <li><a href="/posts/{{list.id}}/">{{list}} -- Status: {{list.status}}</a></li>
+<ul class="list">
+    {% for post in post_list %}
+        <li class="list_items">
+        <input id="expandable" class="toggle" type="checkbox">
+        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}} 
+            -- Job Type: {{post.job_type}}
+
+        </label>
+
+        <div class="collapsable_content">
+            <a href="/posts/{{post.id}}/">View Post </a>
+            <p>Description: {{post.description}}</p>
+
+       </div>
+        </li>
     {% endfor %}
 </ul>
 
+
+<script type="text/javascript">
+    var allLists = document.getElementsByTagName('label');
+    
+    for(var x = 0; x < allLists.length; x++)
+    {
+        allLists[x].onclick=function()
+        {
+            if(this.parentNode)
+            {
+                var childList = this.parentNode.getElementsByClassName('collapsable_content');
+                console.log(this.nodeName)
+
+                console.log(this.parentNode)
+                console.log(childList)
+                for(var y = 0; y< childList.length;y++)
+                {
+                    var currentState = childList[y].style.display;
+                    if(currentState=="block")
+                    {
+                        childList[y].style.display="none";
+                    }
+                    else
+                    {
+                        childList[y].style.display="block";
+                    }
+                    childList[y].onclick = function() { 
+                        var curr = this.style.display;
+                        if(curr=="block"){
+                            this.style.display="none";
+                        }else{
+                            this.style.display="block";
+                        }
+                    }
+                }
+            }
+        }
+    }
+    </script>
+</html>

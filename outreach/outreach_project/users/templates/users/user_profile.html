@@ -33,7 +33,9 @@
     {% for post in posts %}
         <li class="list_items">
         <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}}</label>
+        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}}
+            -- Job Type: {{post.job_type}}
+        </label>
 
         <div class="collapsable_content">
             <a href="/posts/{{post.id}}/">View Post </a>

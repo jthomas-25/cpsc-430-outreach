@@ -8,6 +8,10 @@ from .forms import PostEditForm, PostCreateForm
 from .models import Post
 from users.models import CustomUser
 import datetime
+from django.utils import timezone
+from datetime import time, timedelta
+
+from django.db.models import Q
 
 # From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
 # Type @custom_tags.student, @custom_tags.employer, @custom_tags.admin in front of function.  NOT TESTED YET
@@ -121,6 +125,63 @@ def post_create(request):
     else:
         form = PostCreateForm()
     return render(request,'post_create_form.html',{'form':form})
+
+#Search 2
+@login_required
+def search2(request):
+    query = request.GET.get('q')
+    filter = request.GET.get('f')
+    sort_date = request.GET.get('d')
+    date_range = timezone.now()
+    if sort_date == "lastday":
+        date_range -= timedelta(days=1)
+    elif sort_date=="lastweek":
+        date_range -= timedelta(days=7)
+    elif sort_date=="lastmonth":
+        date_range -= timedelta(days=30)
+
+    results = "empty"
+    context={'results':results,'last_search':query,'last_filter':filter,'last_date':sort_date}
+    if query == None:
+        context['last_search'] = "Search..."
+        context['last_filter'] = "None"
+        return render(request,'search2.html',context)
+    if query == "":
+        results = Post.objects.all()
+        if sort_date != "none":
+            results = results.filter(date_posted__gte=date_range)
+        context['results'] = results
+        return render(request,'search2.html',context)
+
+    if filter == "none":
+        results = Post.objects.filter(
+            Q(description__icontains=query) | Q(title__icontains=query) | Q(job_type__icontains=query)
+        )
+        context['results'] = results
+    elif filter == "title":
+        results = Post.objects.filter(
+            Q(title__icontains=query)
+        )
+        context['results'] = results
+    elif filter == "description":
+        results = Post.objects.filter(
+            Q(description__icontains=query)
+        )
+        context['results'] = results
+    elif filter == "type":
+        results = Post.objects.filter(
+            Q(job_type__icontains=query)
+        )
+        context['results'] = results
+
+    if sort_date != "none":
+        context['results'] = results.filter(date_posted__gte=date_range)
+
+    if len(results) == 0:
+        context['results']="no_results"
+
+
+    return render(request,'search2.html',context)
 
 #Search for posts
 @login_required
