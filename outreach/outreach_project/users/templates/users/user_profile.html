@@ -7,6 +7,7 @@
 
 
 {% include 'header.html' %}
+<br><br>
 
 {% if user.is_student %}
     <h2>Student profile for {{user.email}}</h2>
@@ -28,55 +29,26 @@
 <br/>
 
 <h2>My posts</h2>
-
-<ul class="list">
+    <p class="date_header">Date posted<p>
+    <ul class="list">
     {% for post in posts %}
         <li class="list_items">
         <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}}
-            -- Job Type: {{post.job_type}}
+        <label for="expandable" class="lbl_toggle">
+            {{post.title}}
+            <span class="date_posted">{{post.date_posted}}</span>
         </label>
 
         <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/">View Post </a>
+            <a href="/posts/{{post.id}}/" class="post_link">View Post</a>
+            <p>Job type: {{post.job_type}}</p>
             <p>Description: {{post.description}}</p>
-
-       </div>
+        </div>
         </li>
     {% endfor %}
-</ul>
+    </ul>
 
-
-<script type="text/javascript">
-    var allLists = document.getElementsByTagName('label');
-    
-    for(var x = 0; x < allLists.length; x++)
-    {
-        allLists[x].onclick=function()
-        {
-            if(this.parentNode)
-            {
-                var childList = this.parentNode.getElementsByClassName('collapsable_content');
-                console.log(this.nodeName)
-
-                console.log(this.parentNode)
-                console.log(childList)
-                for(var y = 0; y< childList.length;y++)
-                {
-                    var currentState = childList[y].style.display;
-                    if(currentState=="block")
-                    {
-                        childList[y].style.display="none";
-                    }
-                    else
-                    {
-                        childList[y].style.display="block";
-                    }
-                }
-            }
-        }
-    }
-    </script>
+<script type="text/javascript" src='{% static 'users/post_list.js' %}'></script>
 
 
 </html>

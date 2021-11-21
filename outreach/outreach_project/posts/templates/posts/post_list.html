@@ -5,29 +5,27 @@
 
 </head>
 {% include "header.html" %}
+<br><br>
 <h1>{{request.session.email}}</h1>
-<p><a href="/posts/create/">Create Post</a></p>
-<p><a href="/posts/mine/">My Posts</a></p>
-<p><a href="/posts/search/">Search Posts</a></p>
 <h1>List of Posts</h1>
-
-<ul class="list">
+    <p class="date_header">Date posted<p>
+    <ul class="list">
     {% for post in post_list %}
         <li class="list_items">
         <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">{{post.title}} -- Status: {{post.status}} 
-            -- Job Type: {{post.job_type}}
-
+        <label for="expandable" class="lbl_toggle">
+            {{post.title}}
+            <span class="date_posted">{{post.date_posted}}</span>
         </label>
 
         <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/">View Post </a>
+            <a href="/posts/{{post.id}}/" class="post_link">View Post</a>
+            <p>Job type: {{post.job_type}}</p>
             <p>Description: {{post.description}}</p>
-
-       </div>
+        </div>
         </li>
     {% endfor %}
-</ul>
+    </ul>
 
 
 <script type="text/javascript">

@@ -21,7 +21,7 @@ def user_profile(request):
     user = CustomUser.objects.get(id=request.session['user_id'])
     posts = user.posts.all()
     for post in posts:
-        post.date_posted = str(post.date_posted)
+        post.format_date()
 
     return render(request,'user_profile.html',{'user':user,'posts':posts})
 
@@ -90,7 +90,8 @@ class user_login(views.LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return "/posts/"
+        return "/"
+        #return "/posts/"
 
 def user_logout(request):
     logout(request)

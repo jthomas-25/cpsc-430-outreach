@@ -22,3 +22,6 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('posts/')
+    
+    def format_date(self):
+        self.date_posted = datetime.date.strftime(self.date_posted, "%m/%d/%Y")

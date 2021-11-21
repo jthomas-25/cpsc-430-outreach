@@ -23,6 +23,8 @@ from home.templatetags import custom_tags
 @login_required
 def post_list(request):
     posts = Post.objects.all()
+    for post in posts:
+        post.format_date()
     user = CustomUser.objects.get(id=request.session.get('user_id'))
     context = {
         'post_list' : posts,
@@ -236,13 +238,13 @@ def search_posts(request):
                     # get all posts in the specified range
                     posts = Post.objects.all().filter(date_posted__range=(dateFrom, dateTo))
                     for post in posts:
-                        post.date_posted = str(post.date_posted)
+                        post.format_date()
             
         # print results for debugging
         for post in posts:
             print("Title: " + post.title,
                   "Description: " + post.description,
-                  "Date Posted: " + str(post.date_posted))
+                  "Date Posted: " + post.format_date())
     else:
         context['showSearchBar'] = False
         context['showDateRange'] = False

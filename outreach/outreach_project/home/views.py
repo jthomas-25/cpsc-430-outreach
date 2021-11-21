@@ -7,7 +7,15 @@ def home(request):
     user = None
     if request.session.get('email') != None:
         user = CustomUser.objects.get(id=request.session.get('user_id'))
-        return render(request,"home/home_view.html",{'user':user})
+        # list all currently available jobs for convenient access
+        posts = Post.objects.all()
+        for post in posts:
+            post.format_date()
+        context = {
+            'user': user,
+            'posts': posts
+        }
+        return render(request, "home/home_view.html", context)
     return render(request,'home_view.html')
 
 def admin_portal(request):

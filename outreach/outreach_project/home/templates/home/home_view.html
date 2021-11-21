@@ -1,35 +1,63 @@
 <html>
-<body>
-{% include "header.html" %}
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+    </head>
+    <body>
 
-<h1 style="font-size: 50px; text-align: center; color:white; font-family:Times New Roman">
-    Welcome Home {{request.session.email}}
-</h1>
+    {% include "header.html" %}
+    <br><br>
 
-{% if not request.session.email %}
-    <p>
-        <a href="/users/create/" class="button">Create User</a>
-        <a href="/users/login/" class="button">Login User</a>
-    </p>
-{% else %}
-    {% if user.is_employer %}
-        <p><a href="/posts/">View Posts</a></p>
-        <p><a href="/posts/create/">Create Post</a></p>
-    {% elif user.is_student %}
-        <p><a href="/posts/search/">Search Posts</a></p>
-    {% elif user.is_admin %}
-        <p><a href="/posts/">View Posts</a></p>
-        <p><a href="/posts/create/">Create Post</a></p>
-        <p><a href="/posts/search/">Search Posts</a></p>
-        <p><a href="/users/">View Users</a></p>
-        <p><a href="/admin_portal/">Admin Portal</a></p>
+    <h1 style="font-size: 50px; text-align: center; color:white; font-family:Times New Roman">
+        Welcome Home {{request.session.email}}
+    </h1>
+
+    {% if not request.session.email %}
+        <p>
+            <a href="/users/create/" class="button">Create User</a>
+            <a href="/users/login/" class="button">Login User</a>
+        </p>
+    {% else %}
+        <p class="date_header">Date posted<p>
+        <ul class="list">
+        {% for post in posts %}
+            <li class="list_items">
+            <input id="expandable" class="toggle" type="checkbox">
+            <label for="expandable" class="lbl_toggle">
+                {{post.title}}
+                <span class="date_posted">{{post.date_posted}}</span>
+            </label>
+
+            <div class="collapsable_content">
+                <a href="/posts/{{post.id}}/" class="post_link">View Post</a>
+                <p>Job type: {{post.job_type}}</p>
+                <p>Description: {{post.description}}</p>
+            </div>
+            </li>
+        {% endfor %}
+        </ul>
+        <!--
+        {% if user.is_employer %}
+            <p><a href="/posts/">View Posts</a></p>
+            <p><a href="/posts/create/">Create Post</a></p>
+        {% elif user.is_student %}
+            <p><a href="/posts/search/">Search Posts</a></p>
+        {% elif user.is_admin %}
+            <p><a href="/posts/">View Posts</a></p>
+            <p><a href="/posts/create/">Create Post</a></p>
+            <p><a href="/posts/search/">Search Posts</a></p>
+            <p><a href="/users/">View Users</a></p>
+            <p><a href="/admin_portal/">Admin Portal</a></p>
+        {% endif %}
+        
+        {% if user.is_authenticated %}
+            <p><a href = '/users/myprofile/'>My Profile</a></p>
+            <p><a href = '/users/logout/'>Logout</a></p>
+        {% endif %}
+        -->
     {% endif %}
-    
-    {% if user.is_authenticated %}
-        <p><a href = '/users/myprofile/'>My Profile</a></p>
-        <p><a href = '/users/logout/'>Logout</a></p>
-    {% endif %}
-{% endif %}
 
-</body>
+    <script type="text/javascript" src='{% static 'home/post_list.js' %}'></script>
+
+    </body>
 </html>
