@@ -14,8 +14,8 @@
 
     {% if not request.session.email %}
         <p>
-            <a href="/users/create/" class="button">Create User</a>
-            <a href="/users/login/" class="button">Login User</a>
+            <a href="/users/create/" class="button" id="create_button">Create User</a>
+            <a href="/users/login/" class="button" id="login_button">Login User</a>
         </p>
     {% else %}
         <p class="date_header">Date posted<p>
@@ -29,7 +29,7 @@
             </label>
 
             <div class="collapsable_content">
-                <a href="/posts/{{post.id}}/" class="post_link">View Post</a>
+                <a href="/posts/{{post.id}}/" class="button">View Post</a>
                 <p>Job type: {{post.job_type}}</p>
                 <p>Description: {{post.description}}</p>
             </div>
@@ -55,9 +55,9 @@
             <p><a href = '/users/logout/'>Logout</a></p>
         {% endif %}
         -->
+        <script type="text/javascript" src='{% static 'home/post_list.js' %}'></script>
     {% endif %}
 
-    <script type="text/javascript" src='{% static 'home/post_list.js' %}'></script>
 
     </body>
 </html>

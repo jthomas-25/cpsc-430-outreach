@@ -88,7 +88,27 @@ body a{
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
+  /*
   margin-left: 475px;
   margin-right: -380px;
+  */
   cursor: pointer;
+}
+
+#create_button {
+    margin-left: 37%;
+    margin-right: 5%;
+}
+
+#login_button {
+    margin-left: 5%;
+    margin-right: auto;
+}
+
+#edit_button {
+    font-size: 16px;
+}
+
+#delete_button {
+    font-size: 16px;
 }

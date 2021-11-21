@@ -6,14 +6,11 @@
   </head>
   <body>
 
-
-
   {% include "header.html" %}
     <h1 id="email">{{ user.email }}</h1>
     <h3 id="account-type">Account type: {{ accountType }}</h3>
     <div className="options">
       <form method="post">
-        <!--protect against cross-site request forgeries-->
         {% csrf_token %}
         {% if user.is_pending %}
             <input type="submit" name="Approve Account" value="Approve Account">
@@ -25,7 +22,6 @@
       </form>
       <br>
       <form method="post">
-        <!--protect against cross-site request forgeries-->
         {% csrf_token %}
         <input type="submit" name="Delete Account" value="Delete Account">
       </form>

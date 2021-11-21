@@ -44,6 +44,7 @@ def post_mine(request):
 @login_required
 def post_detail(request,id):
     post = Post.objects.get(id=id)
+    post.format_date()
     user = CustomUser.objects.get(id=request.session.get('user_id'))
     
     
@@ -74,7 +75,6 @@ def post_detail(request,id):
             elif unblockPostButtonClicked:
                 post.status = "active"
                 post.save()
-            #post.save()
 
     context = {
         'post_detail' : post,

@@ -23,7 +23,7 @@
 {% else %}
     <p>Date Joined: {{user.date_joined}}</p>
 {% endif %}
-<a href="/users/edit/{{user.id}}">Edit Profile</a>
+<a href="/users/edit/{{user.id}}" class="button">Edit Profile</a>
 <h3>Bio:</h3>
 <p>{{user.bio}}</p>
 <br/>
@@ -40,7 +40,7 @@
         </label>
 
         <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/" class="post_link">View Post</a>
+            <a href="/posts/{{post.id}}/" class="button">View Post</a>
             <p>Job type: {{post.job_type}}</p>
             <p>Description: {{post.description}}</p>
         </div>
