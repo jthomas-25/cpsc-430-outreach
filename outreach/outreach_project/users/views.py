@@ -34,18 +34,18 @@ def user_create(request):
             user.is_active = False
             send_email(user)
             #Get data from the email field
-            #data = form.cleaned_data.get("email")
+            data = form.cleaned_data.get("email")
             
             #Check if email contains mail.umw.edu as the domain
-          #  if "@mail.umw.edu" in data:
-              #  pass
+            if "@mail.umw.edu" in data:
+                pass
                 #Set is_student or is_employer to True
-               # inactive_user.is_student = True
+                user.is_student = True
                 
             #If email contains anything but umw's domain, set employer to True
-            #else:
-            #    pass
-              #  active_user.is_employer = True
+            else:
+                pass
+                user.is_employer = True
             user.save()
 
             return redirect("/users/login")
