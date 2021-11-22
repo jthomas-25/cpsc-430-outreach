@@ -160,4 +160,5 @@ MEDIA_URL = '/media/'
 Q_CLUSTER = {
     'name': 'outreach_project',
     'orm': 'default',
+    'timeout': 60,
 }
