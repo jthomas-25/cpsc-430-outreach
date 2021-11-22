@@ -22,6 +22,6 @@ urlpatterns = [
     path('posts/',include('posts.urls')),
     path('users/',include('users.urls')),
     path('',include('home.urls')),
-    #(r'media/(?P<path>.*)$', 'django.views.static.serve',)
+    #path('verification/', include('verify_email.urls')),
     path('email/', include(email_urls))	
 ]
