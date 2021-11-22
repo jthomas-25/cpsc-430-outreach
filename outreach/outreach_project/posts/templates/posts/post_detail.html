@@ -1,7 +1,8 @@
+<body>
 {% include "header.html" %}
 <h1>{{request.session.email}}</h1>
 <h1>{{post_detail.title}}</h1>
-<p>Date posted: {{post_detail.date_posted}}
+<p>Date posted: {{post_detail.date_posted}}</p>
 <p>{{post_detail.description}}</p>
 {% if user.id == post_detail.user_id_id or user.is_admin %}
   <form method="post">
@@ -24,3 +25,5 @@
     {% endif %}
   </form>
 {% endif %}
+
+</body>
