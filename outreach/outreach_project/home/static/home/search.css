@@ -35,7 +35,7 @@
 
 .search_bar {
     width: 500px;
-    height: 50px;
+    height: 51px;
     font-size: 15px;
     outline: none;
     overflow: scroll;
@@ -78,4 +78,11 @@
     align-content: center;
     margin-left: 20%;
     margin-right: 20%;
+}
+
+.date_filter {
+    width: 104px;
+    height: 50px;
+    border: none;
+    background-color: white;
 }

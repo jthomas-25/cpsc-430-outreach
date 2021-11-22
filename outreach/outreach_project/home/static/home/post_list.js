@@ -22,6 +22,15 @@ for(var x = 0; x < allLists.length; x++)
                 {
                     childList[y].style.display="block";
                 }
+                childList[y].onclick = function() { 
+                    var curr = this.style.display;
+                    if(curr=="block"){
+                        this.style.display="none";
+                    }else{
+                        this.style.display="block";
+                    }
+                }
+
             }
         }
     }

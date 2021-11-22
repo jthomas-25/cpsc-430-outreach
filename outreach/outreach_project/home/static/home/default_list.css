@@ -52,6 +52,10 @@
 }
 
 .date_posted {
-    margin-left: 75%;
-    margin-right: auto;
+    float: right;
+    text-align: right;
+    margin-right: 6%;
 }
+
+
+
