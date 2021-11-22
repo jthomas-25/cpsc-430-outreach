@@ -11,6 +11,7 @@ from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import CustomUser
 from posts.models import Post
 from users.admin import CustomUserAdmin
+from django_email_verification import send_email
 
 # From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
 from home.templatetags import custom_tags
@@ -29,32 +30,28 @@ def user_create(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST,initial={'graduation_date':None})
         if form.is_valid():
-            #user = None
-            user= form.save()
-            
+
+            user = form.save()
+            user.is_active = False
+            send_email(user)
+
             #Get data from the email field
             data = form.cleaned_data.get("email")
             
             #Check if email contains mail.umw.edu as the domain
             if "@mail.umw.edu" in data:
-                #pass
-                #Set is_student and is_employer to True
+            
+                pass
+                #Set is_student or is_employer to True
                 user.is_student = True
                 
             #If email contains anything but umw's domain, set employer to True
             else:
-                #pass
+
+                pass
                 user.is_employer = True
             user.save()
-            # send account verification email
-            #with mail.get_connection() as connection:
-            #    email = mail.EmailMessage(
-            #        "Verify your email for UMW Connect",
-            #        "This is a test email.",
-            #        None,
-            #        ["thomas.2010.john@gmail.com"],
-            #    )
-            #    email.send()
+
             return redirect("/users/login")
     else:
         form = CustomUserCreationForm()
