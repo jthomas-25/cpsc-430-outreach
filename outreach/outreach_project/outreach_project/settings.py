@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'posts.apps.PostsConfig',
     'home.apps.HomeConfig',
     'users.apps.UsersConfig',
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,9 @@ EMAIL_USE_TLS = True
 
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__),'media')
 MEDIA_URL = '/media/'
+
+# Django-Q
+Q_CLUSTER = {
+    'name': 'outreach_project',
+    'orm': 'default',
+}
