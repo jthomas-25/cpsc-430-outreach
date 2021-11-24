@@ -1,29 +1,33 @@
-<body>
-{% include "header.html" %}
-<h1>{{request.session.email}}</h1>
-<h1>{{post_detail.title}}</h1>
-<p>Date posted: {{post_detail.date_posted}}</p>
-<p>{{post_detail.description}}</p>
-{% if user.id == post_detail.user_id_id or user.is_admin %}
-  <form method="post">
-    {% csrf_token %}
-    <input type="submit" name="Edit Post" value="Edit Post" class="button" id="edit_button">
-    <br><br>
-    <input type="submit" name="Delete Post" value="Delete Post" class="button" id="delete_button">
-  </form>
-{% endif %}
-{% if user.is_admin %}
-  <form method="post">
-    {% csrf_token %}
-    {% if post_detail.status == "pending" %}
-      <input type="submit" name="Approve Post" value="Approve Post" class="button">
-      <input type="submit" name="Deny Post" value="Deny Post" class="button">
-    {% elif post_detail.status == "active" %}
-      <input type="submit" name="Block Post" value="Block Post" class="button">
-    {% elif post_detail.status == "blocked" %}
-      <input type="submit" name="Unblock Post" value="Unblock Post" class="button">
-    {% endif %}
-  </form>
-{% endif %}
+<html>
+    <body>
 
-</body>
+        {% include "header.html" %}
+        <h1>{{request.session.email}}</h1>
+        <h1>{{post_detail.title}}</h1>
+        <p>Date posted: {{post_detail.date_posted_str}}</p>
+        <p>End date: {{post_detail.end_date_str}}</p>
+        <p>{{post_detail.description}}</p>
+        {% if user.id == post_detail.user_id_id or user.is_admin %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" name="Edit Post" value="Edit Post" class="button" id="edit_button">
+                <br><br>
+                <input type="submit" name="Delete Post" value="Delete Post" class="button" id="delete_button">
+            </form>
+        {% endif %}
+        {% if user.is_admin %}
+            <form method="post">
+                {% csrf_token %}
+                {% if post_detail.status == "pending" %}
+                    <input type="submit" name="Approve Post" value="Approve Post" class="button">
+                    <input type="submit" name="Deny Post" value="Deny Post" class="button">
+                {% elif post_detail.status == "active" %}
+                    <input type="submit" name="Block Post" value="Block Post" class="button">
+                {% elif post_detail.status == "blocked" %}
+                    <input type="submit" name="Unblock Post" value="Unblock Post" class="button">
+                {% endif %}
+            </form>
+        {% endif %}
+
+    </body>
+</html>

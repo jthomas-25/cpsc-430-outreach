@@ -24,7 +24,7 @@ from home.templatetags import custom_tags
 def post_list(request):
     posts = Post.objects.all()
     for post in posts:
-        post.format_date()
+        post.date_posted_str = post.get_date_str(post.date_posted)
     user = CustomUser.objects.get(id=request.session.get('user_id'))
     context = {
         'post_list' : posts,
@@ -42,11 +42,11 @@ def post_mine(request):
 
 #Get specific info for post
 @login_required
-def post_detail(request,id):
+def post_detail(request, id):
     post = Post.objects.get(id=id)
-    post.format_date()
+    post.date_posted_str = post.get_date_str(post.date_posted)
+    post.end_date_str = post.get_date_str(post.end_date)
     user = CustomUser.objects.get(id=request.session.get('user_id'))
-    
     
     if request.method == "POST":
         if user.is_admin or user.id == post.user_id_id:
@@ -101,9 +101,10 @@ class post_delete(DeleteView, LoginRequiredMixin):
 #@custom_tags.admin
 #@custom_tags.employer
 class post_edit(UpdateView, LoginRequiredMixin):
+    form_class = PostEditForm
     model = Post
     template_name = 'post_edit_form.html'
-    fields = '__all__'
+    #fields = '__all__'
     raise_exception = True
     permission_denied_message = "You are not allowed here!"
     success_url="/posts"
@@ -113,7 +114,6 @@ class post_edit(UpdateView, LoginRequiredMixin):
         return obj
     def handle_no_permission(self):
         return redirect("/users/login/")
-
 
 @login_required
 #@employer
@@ -237,14 +237,12 @@ def search_posts(request):
             
                     # get all posts in the specified range
                     posts = Post.objects.all().filter(date_posted__range=(dateFrom, dateTo))
-                    for post in posts:
-                        post.format_date()
             
         # print results for debugging
         for post in posts:
             print("Title: " + post.title,
                   "Description: " + post.description,
-                  "Date Posted: " + post.format_date())
+                  "Date Posted: " + post.get_date_str(post.date_posted))
     else:
         context['showSearchBar'] = False
         context['showDateRange'] = False

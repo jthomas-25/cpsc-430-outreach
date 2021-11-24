@@ -1,70 +1,16 @@
 <html>
-<head>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href='{% static 'home/default_list.css' %}?{% now "U" %}'>
+    </head>
+    <body>
 
-</head>
-{% include "header.html" %}
-<br><br>
-<h1>{{request.session.email}}</h1>
-<h1>List of Posts</h1>
-    <p class="date_header">Date posted<p>
-    <ul class="list">
-    {% for post in post_list %}
-        <li class="list_items">
-        <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">
-            <strong>{{post.title}}</strong>
-            <span class="date_posted">{{post.date_posted}}</span>
-        </label>
-
-        <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/" class="button">View Post</a>
-            <p>Job type: {{post.job_type}}</p>
-            <p>Description: {{post.description}}</p>
-        </div>
-        </li>
-    {% endfor %}
-    </ul>
-
-
-<script type="text/javascript">
-    var allLists = document.getElementsByTagName('label');
+    {% include "header.html" %}
+    <br><br>
+    <h1>{{request.session.email}}</h1>
+    <h1>List of Posts</h1>
+    {% include "list_of_posts.html" %}
+    <script type="text/javascript" src='{% static 'posts/post_list.js' %}?{% now "U" %}'></script>
     
-    for(var x = 0; x < allLists.length; x++)
-    {
-        allLists[x].onclick=function()
-        {
-            if(this.parentNode)
-            {
-                var childList = this.parentNode.getElementsByClassName('collapsable_content');
-                var list = this.parentNode.getElementsByClassName('list_items');
-                console.log(this.nodeName)
-
-                console.log(this.parentNode)
-                console.log(childList)
-                for(var y = 0; y< childList.length;y++)
-                {
-                    var currentState = childList[y].style.display;
-                    if(currentState=="block")
-                    {
-                        childList[y].style.display="none";
-                    }
-                    else
-                    {
-                        childList[y].style.display="block";
-                    }
-                    childList[y].onclick = function() { 
-                        var curr = this.style.display;
-                        if(curr=="block"){
-                            this.style.display="none";
-                        }else{
-                            this.style.display="block";
-                        }
-                    }
-                }
-            }
-        }
-    }
-    </script>
+    </body>
 </html>

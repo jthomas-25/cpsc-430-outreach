@@ -15,7 +15,8 @@ class Post(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=CASCADE, related_name="posts", editable=False)
     #date_posted = models.DateTimeField(default=timezone.now)
     date_posted = models.DateField(default=datetime.date.today, editable=False)
-    job_type = models.CharField(max_length=30,default="none")
+    job_type = models.CharField(max_length=30, default="none")
+    end_date = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -23,5 +24,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('posts/')
     
-    def format_date(self):
-        self.date_posted = datetime.date.strftime(self.date_posted, "%m/%d/%Y")
+    def get_date_str(self, date):
+        if date:
+            return datetime.date.strftime(date, "%m/%d/%Y")
+        return "None"

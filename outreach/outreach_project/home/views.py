@@ -10,10 +10,10 @@ def home(request):
         # list all currently available jobs for convenient access
         posts = Post.objects.all()
         for post in posts:
-            post.format_date()
+            post.date_posted_str = post.get_date_str(post.date_posted)
         context = {
             'user': user,
-            'posts': posts
+            'post_list': posts
         }
         return render(request, "home/home_view.html", context)
     return render(request,'home_view.html')

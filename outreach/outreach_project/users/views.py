@@ -22,9 +22,8 @@ def user_profile(request):
     user = CustomUser.objects.get(id=request.session['user_id'])
     posts = user.posts.all()
     for post in posts:
-        post.format_date()
-
-    return render(request,'user_profile.html',{'user':user,'posts':posts})
+        post.date_posted_str = post.get_date_str(post.date_posted)
+    return render(request,'user_profile.html',{'user':user,'post_list':posts})
 
 def user_create(request):
     if request.method == 'POST':
@@ -47,7 +46,6 @@ def user_create(request):
                 
             #If email contains anything but umw's domain, set employer to True
             else:
-
                 pass
                 user.is_employer = True
             user.save()
@@ -69,13 +67,6 @@ def user_edit(request,id):
     else:
         form = CustomUserChangeForm(instance=request.user,is_student=user.is_student)
     return render(request,'user_change_form.html',{'form':form})
-
-#class user_create(CreateView):
-#    model = get_user_model()
-#    fields = ['email','password']
-#    form = CustomUserCreationForm
-#    template_name = 'user_create_form.html'
-#    success_url = "/"
 
 class user_login(views.LoginView):
     template_name = 'user_login_form.html'

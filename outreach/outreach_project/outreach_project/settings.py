@@ -142,14 +142,6 @@ LOGIN_REDIRECT_URL = "/users/login/"
 SESSION_COOKIE_AGE = 1800
 
 # Email
-"""
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 25
-EMAIL_USE_TLS = True
-"""
-
-
 def verified_callback(user):
     user.is_active = True
 

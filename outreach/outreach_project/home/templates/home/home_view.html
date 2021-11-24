@@ -1,7 +1,7 @@
 <html>
     <head>
         {% load static %}
-        <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+        <link rel="stylesheet" type="text/css" href='{% static 'home/default_list.css' %}?{% now "U" %}'>
     </head>
     <body>
 
@@ -18,24 +18,8 @@
             <a href="/users/login/" class="button" id="login_button">Login User</a>
         </p>
     {% else %}
-        <p class="date_header">Date posted<p>
-        <ul class="list">
-        {% for post in posts %}
-            <li class="list_items">
-            <input id="expandable" class="toggle" type="checkbox">
-            <label for="expandable" class="lbl_toggle">
-                <strong>{{post.title}}</strong>
-                <span class="date_posted">{{post.date_posted}}</span> 
-            </label>
-
-            <div class="collapsable_content">
-                <a href="/posts/{{post.id}}/" class="button">View Post</a>
-                <p>Job type: {{post.job_type}}</p>
-                <p>Description: {{post.description}}</p>
-            </div>
-            </li>
-        {% endfor %}
-        </ul>
+        {% include "posts/list_of_posts.html" %}
+        <script type="text/javascript" src='{% static 'posts/post_list.js' %}?{% now "U" %}'></script>
         <!--
         {% if user.is_employer %}
             <p><a href="/posts/">View Posts</a></p>
@@ -55,9 +39,7 @@
             <p><a href = '/users/logout/'>Logout</a></p>
         {% endif %}
         -->
-        <script type="text/javascript" src='{% static 'home/post_list.js' %}?{% now "U" %}'></script>
     {% endif %}
-
 
     </body>
 </html>

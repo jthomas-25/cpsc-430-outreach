@@ -1,54 +1,35 @@
 <html>
-<head>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href='{% static 'home/default_list.css' %}?{% now "U" %}'>
+    </head>
+    <body>
 
-</head>
+    {% include 'header.html' %}
+    <br><br>
 
+    {% if user.is_student %}
+        <h2>Student profile for {{user.email}}</h2>
+        <p>Graduation Date: {{user.graduation_date}}</p>
+    {% elif user.is_employer %}
+        <h2>Employer profile for {{user.email}}</h2>
+    {% else %}
+        <h2>User profile for {{user.email}}</h2>
+    {% endif %}
 
-{% include 'header.html' %}
-<br><br>
+    {% if user.is_pending %}
+        <p>Account is still pending Admin Approval</p>
+    {% else %}
+        <p>Date Joined: {{user.date_joined}}</p>
+    {% endif %}
+    <a href="/users/edit/{{user.id}}" class="button">Edit Profile</a>
+    <h3>Bio:</h3>
+    <p>{{user.bio}}</p>
+    <br/>
 
-{% if user.is_student %}
-    <h2>Student profile for {{user.email}}</h2>
-    <p>Graduation Date: {{user.graduation_date}}</p>
-{% elif user.is_employer %}
-    <h2>Employer profile for {{user.email}}</h2>
-{% else %}
-    <h2>User profile for {{user.email}}</h2>
-{% endif %}
+    <h2>My posts</h2>
+    {% include "posts/list_of_posts.html" %}
+    <script type="text/javascript" src='{% static 'posts/post_list.js' %}'></script>
 
-{% if user.is_pending %}
-    <p>Account is still pending Admin Approval</p>
-{% else %}
-    <p>Date Joined: {{user.date_joined}}</p>
-{% endif %}
-<a href="/users/edit/{{user.id}}" class="button">Edit Profile</a>
-<h3>Bio:</h3>
-<p>{{user.bio}}</p>
-<br/>
-
-<h2>My posts</h2>
-    <p class="date_header">Date posted<p>
-    <ul class="list">
-    {% for post in posts %}
-        <li class="list_items">
-        <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">
-            {{post.title}}
-            <span class="date_posted">{{post.date_posted}}</span>
-        </label>
-
-        <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/" class="button">View Post</a>
-            <p>Job type: {{post.job_type}}</p>
-            <p>Description: {{post.description}}</p>
-        </div>
-        </li>
-    {% endfor %}
-    </ul>
-
-<script type="text/javascript" src='{% static 'users/post_list.js' %}'></script>
-
-
+    </body>
 </html>

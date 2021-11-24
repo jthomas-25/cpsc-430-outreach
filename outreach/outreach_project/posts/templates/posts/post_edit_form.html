@@ -1,36 +1,35 @@
-<!--
-<h1>Post {{post.title}}</h1>
-<form action="" method="POST">
-    {% csrf_token %}
-    <input type="text" name="title" value="{{post.title}}">
-    <input type="text" name="description" value="{{post.description}}">
-    <input type="submit" value="Save"/>
-</form>
--->
-
 <html>
-<head>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href='{% static  'home/form.css' %}?{% now "U" %}'>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href='{% static  'home/form.css' %}?{% now "U" %}'>
+    </head>
+    <body>
 
-</head>
+        {% include "header.html" %}
+        <h1 class="form_title">Edit Post</h1>
+        {% if form.errors %}
+            {{form.errors}}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <label class="field_title">{{field.label}}</label>
+                <br>
+                {% if field.label == "Job type" %}
+                    <div class="dropdown">
+                        {{field}}
+                    </div>
+                {% elif field.label == "End date" %}
+                    <div class="selectdate">
+                        {{field}}
+                    </div>
+                {% else %}
+                    {{field}}
+                {% endif %}
+                <br>
+            {% endfor %}
+            <input type="submit" value="Submit"/>
+        </form>
 
-{% include "header.html" %}
-<h1 class="form_title">Edit Post</h1>
-{% if form.errors %}
-    {{ form.errors}}
-{% endif %}
-<form method="POST">
-    {% csrf_token %}
-{% for field in form %}
-    <label class="field_title">{{field.label }}</label>
-    <br>
-    {{field}}
-    <br>
-{% endfor %}
-    <input type="submit" value="Submit"/>
-</form>
-
-
-
+    </body>
 </html>
