@@ -9,6 +9,7 @@
 
 
   {% include "header.html" %}
+  <br><br>
   <h1>List of Users </h1>
 <ul class="list">
     {% for user in users %}
@@ -17,7 +18,7 @@
         <label for="expandable" class="lbl_toggle">{{user.email}}</label>
 
         <div class="collapsable_content">
-            <a href="/users/view/?user={{user.id}}">View User </a>
+            <a href="/users/view/?user={{user.id}}" class="button">View User </a>
             {% if user.is_pending %}
               <p>Status: Pending</p>
             {% else %}

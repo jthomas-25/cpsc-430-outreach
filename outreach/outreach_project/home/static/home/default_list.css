@@ -11,6 +11,7 @@
     font-size: 30px;
     padding-bottom: 10px;
     padding-top: 10px;
+    transition: height 1s;
 }
 .list_items:last-child {
     border-bottom: none;

@@ -1,0 +1,21 @@
+.wrapper {
+    width: 100%;
+    margin:  auto;
+    margin-top:5%;
+}
+
+.post_container,.options_container{
+    float: left;
+    color: white;
+}
+
+.post_container{
+    width: 70%;
+    margin-left: 2%;
+}
+.options_container{
+    width: 15%;
+    margin-left: 0;
+    text-align: center;
+    border-right: 1px solid white;
+}

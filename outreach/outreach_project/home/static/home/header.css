@@ -77,31 +77,21 @@ body a{
 }
 
 .button {
-  /*background-color: #002B5A;
-  border: 1px #872434 solid;
+  background-color:  #872434 ;
+  border: 1px #002B5A solid;
   border-radius: 4px;
   height: 28px;
-  width: 200px;
+  width: 112px;
   color:white;
-<<<<<<< HEAD
-  padding-top: 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
-  margin-top: 1%;
-  /*
-  margin-left: 475px;
-  margin-right: -380px;
-  */
-=======
-  padding: 12px 12 px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
-  margin-top: 10px;*/
+  font-size: 16px;
+  margin-top: 10px;
+  padding-top: 6px;
 
+
+  /**
   padding:5px 10px;
   width: 80px;
   color: white;
@@ -112,9 +102,11 @@ body a{
   display: inline-block;
   text-decoration: none;
   text-align: center;
-  
->>>>>>> 71e10b4571f4a12099c430ad46c9e746a1cc17c5
+  */
   cursor: pointer;
+}
+.button:hover {
+  background-color: #701c2a;
 }
 
 #create_button {
@@ -128,9 +120,19 @@ body a{
 }
 
 #edit_button {
-    font-size: 16px;
+    margin: 10px;
+    padding-top: 0;
+    font-size: 15px;
 }
 
 #delete_button {
-    font-size: 16px;
+    margin: 10px;
+    padding-top: 0;
+    font-size: 15px;
+}
+
+#block_button {
+  margin: 10px;
+  padding-top: 0;
+  font-size: 15px;
 }

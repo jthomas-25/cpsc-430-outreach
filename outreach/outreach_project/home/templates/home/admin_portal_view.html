@@ -16,7 +16,7 @@
         <label for="expandable" class="lbl_toggle">{{post.title}}</label>
 
         <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/">View Post</a>
+            <a href="/posts/{{post.id}}/" class="button">View Post</a>
             <p>Description</p>
             <p>{{post.description}}</p>
 
@@ -32,7 +32,7 @@
         <input id="expandable" class="toggle" type="checkbox">
         <label for="expandable" class="lbl_toggle">{{user.email}}</label>
         <div class="collapsable_content">
-            <a href="/users/view/?user={{user.id}}">View User</a>
+            <a href="/users/view/?user={{user.id}}" class="button">View User</a>
             <p>Bio</p>
             <p>{{user.bio}}</p>
         </div>

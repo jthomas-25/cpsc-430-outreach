@@ -20,25 +20,7 @@
     {% else %}
         {% include "posts/list_of_posts.html" %}
         <script type="text/javascript" src='{% static 'posts/post_list.js' %}?{% now "U" %}'></script>
-        <!--
-        {% if user.is_employer %}
-            <p><a href="/posts/">View Posts</a></p>
-            <p><a href="/posts/create/">Create Post</a></p>
-        {% elif user.is_student %}
-            <p><a href="/posts/search/">Search Posts</a></p>
-        {% elif user.is_admin %}
-            <p><a href="/posts/">View Posts</a></p>
-            <p><a href="/posts/create/">Create Post</a></p>
-            <p><a href="/posts/search/">Search Posts</a></p>
-            <p><a href="/users/">View Users</a></p>
-            <p><a href="/admin_portal/">Admin Portal</a></p>
-        {% endif %}
-        
-        {% if user.is_authenticated %}
-            <p><a href = '/users/myprofile/'>My Profile</a></p>
-            <p><a href = '/users/logout/'>Logout</a></p>
-        {% endif %}
-        -->
+
     {% endif %}
 
     </body>

@@ -7,23 +7,24 @@
   <body>
 
   {% include "header.html" %}
+  <br><br>
     <h1 id="email">{{ user.email }}</h1>
     <h3 id="account-type">Account type: {{ accountType }}</h3>
     <div className="options">
       <form method="post">
         {% csrf_token %}
         {% if user.is_pending %}
-            <input type="submit" name="Approve Account" value="Approve Account">
+            <input type="submit" name="Approve Account" value="Approve Account" class="button" id="block_button">
         {% elif user.is_active %}
-            <input type="submit" name="Block Account" value="Block Account">
+            <input type="submit" name="Block Account" value="Block Account" class="button" id="block_button">
         {% elif user.is_blocked %}
-            <input type="submit" name="Unblock Account" value="Unblock Account">
+            <input type="submit" name="Unblock Account" value="Unblock Account" class="button" id="block_button">
         {% endif %}
       </form>
       <br>
       <form method="post">
         {% csrf_token %}
-        <input type="submit" name="Delete Account" value="Delete Account">
+        <input type="submit" name="Delete Account" value="Delete Account" class="button" id="delete_button">
       </form>
     </div>
 
