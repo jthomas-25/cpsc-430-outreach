@@ -18,9 +18,12 @@
             <a href="/users/login/" class="button" id="login_button">Login User</a>
         </p>
     {% else %}
+    <div class="post_container">
+        <h1 class="list_header">List of Posts <span class="date_header">Date Posted</span></h1>
         {% include "posts/list_of_posts.html" %}
         <script type="text/javascript" src='{% static 'posts/post_list.js' %}?{% now "U" %}'></script>
 
+    </div>
     {% endif %}
 
     </body>

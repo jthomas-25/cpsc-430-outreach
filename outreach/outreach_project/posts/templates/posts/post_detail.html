@@ -17,6 +17,8 @@
                     <br>
                     <input type="submit" name="Delete Post" value="Delete Post" class="button" id="delete_button">
                 </form>
+            {% else %}
+                <a href="/users/contact/{{post_detail.id}}" class="button" id="contact_button">Contact Employer</a>
             {% endif %}
             {% if user.is_admin %}
                 <form method="post">
@@ -40,6 +42,7 @@
             <h1>{{post_detail.title}}</h1>
             <p>Date posted: {{post_detail.date_posted_str}}</p>
             <p>End date: {{post_detail.end_date_str}}</p>
+            <h2>Description:</h2>
             <p>{{post_detail.description}}</p>
         </div>
 

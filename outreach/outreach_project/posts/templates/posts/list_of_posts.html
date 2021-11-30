@@ -1,5 +1,8 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'home/default_list.css' %}?{% now "U" %}'>
+</head>
 {% if post_list %}
-    <p class="date_header">Date posted<p>
     <ul class="list">
     {% for post in post_list %}
         <li class="list_items">

@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  min-height: 100vh;
+  min-width: 100vh;
 }
 
 .header {
@@ -7,6 +9,7 @@ body {
     background-color: #e0e0e0;
     padding: 0;
     margin: 0;
+    margin-bottom: 3%;
     width: 100%;
     height: 53px;
     text-align:center;
@@ -135,4 +138,14 @@ body a{
   margin: 10px;
   padding-top: 0;
   font-size: 15px;
+}
+
+#contact_button {
+  width: 150px;
+  padding-top: 4px;
+}
+#delete_account {
+  width: 112px;
+  height: 28px;
+  padding: 0;
 }

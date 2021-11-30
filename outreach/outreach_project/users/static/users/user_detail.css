@@ -1,12 +1,27 @@
-#logo {
-    display: inline;
-    margin-right: 70%;
+.wrapper {
+    width: 100%;
+    margin:  auto;
+    margin-top:5%;
+    height: 50vh;
 }
 
-#home {
-    margin-right: 5%;
+.user,.options_container{
+    float: left;
+    color: white;
 }
 
-.options {
+.user{
+    width: 70%;
+    border-left: 1px solid white;
+    padding-left: 2%;
+}
+.options_container{
+    width: 15%;
+    margin-left: 0;
+    text-align: center;
+}
+.date{
+    float: right;
     display: inline;
+    margin-right: 8%;
 }

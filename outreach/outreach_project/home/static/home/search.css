@@ -74,10 +74,10 @@
 }
 
 .results_container {
-    width: 60%;
+    width: 70%;
     align-content: center;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .date_filter {
@@ -85,4 +85,7 @@
     height: 50px;
     border: none;
     background-color: white;
+}
+.results_header{
+    padding-left: 3%;
 }

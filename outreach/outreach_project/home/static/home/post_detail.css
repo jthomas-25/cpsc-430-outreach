@@ -11,11 +11,11 @@
 
 .post_container{
     width: 70%;
-    margin-left: 2%;
+    border-left: 1px solid white;
+    padding-left: 2%;
 }
 .options_container{
     width: 15%;
     margin-left: 0;
     text-align: center;
-    border-right: 1px solid white;
 }

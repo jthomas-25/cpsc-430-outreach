@@ -46,17 +46,25 @@
 }
 
 */
+
+
+.list_header{
+    padding-left: 3%;
+}
 .date_header {
-    margin-left: 85%;
-    margin-right: auto;
-    font-size: 30px;
+    float: right;
+    padding-right: 5%;
 }
 
 .date_posted {
     float: right;
-    text-align: right;
     margin-right: 6%;
 }
 
 
+.post_container{
+    width: 80%;
+    align-content: center;
+    margin-left: 10%;
+}
 

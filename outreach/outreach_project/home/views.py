@@ -9,6 +9,7 @@ def home(request):
         user = CustomUser.objects.get(id=request.session.get('user_id'))
         # list all currently available jobs for convenient access
         posts = Post.objects.all()
+        posts = posts.exclude(status="pending")
         for post in posts:
             post.date_posted_str = post.get_date_str(post.date_posted)
         context = {

@@ -2,31 +2,48 @@
 <html>
   <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'users/user_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href='{% static  'users/user_detail.css' %}?{% now "U" %}'>
   </head>
   <body>
 
   {% include "header.html" %}
   <br><br>
-    <h1 id="email">{{ user.email }}</h1>
-    <h3 id="account-type">Account type: {{ accountType }}</h3>
-    <div className="options">
-      <form method="post">
-        {% csrf_token %}
-        {% if user.is_pending %}
-            <input type="submit" name="Approve Account" value="Approve Account" class="button" id="block_button">
-        {% elif user.is_active %}
-            <input type="submit" name="Block Account" value="Block Account" class="button" id="block_button">
-        {% elif user.is_blocked %}
-            <input type="submit" name="Unblock Account" value="Unblock Account" class="button" id="block_button">
-        {% endif %}
-      </form>
-      <br>
-      <form method="post">
-        {% csrf_token %}
-        <input type="submit" name="Delete Account" value="Delete Account" class="button" id="delete_button">
-      </form>
+  <div class="wrapper">
+    <div class="options_container">
+        <form method="post">
+          {% csrf_token %}
+          {% if user.is_pending %}
+              <input type="submit" name="Approve Account" value="Approve Account" class="button" id="block_button">
+          {% elif user.is_active %}
+              <input type="submit" name="Block Account" value="Block Account" class="button" id="block_button">
+          {% elif user.is_blocked %}
+              <input type="submit" name="Unblock Account" value="Unblock Account" class="button" id="block_button">
+          {% endif %}
+        </form>
+        <br>
+        <form method="post">
+          {% csrf_token %}
+          <input type="submit" name="Delete Account" value="Delete Account" class="button" id="delete_button">
+        </form>
     </div>
+    <div class="user">
+      <h1 >{{ user.email }}</h1>
+      <h3>Account type: {{ accountType }}</h3>
+      <p>Date Created: {{user.date_joined}}</p>
+      {% if user.is_student %}
+        <p> Graduation Date: {{user.graduation_date}}</p>
+      {% endif %}
+      <h3>Bio</h3>
+      <p>{{user.bio}}</p>
+
+      <br>
+      <h3> Posts by {{user.email}} <span class="date">Date Posted</span> </h3>
+      {% include "posts/list_of_posts.html" %}
+        <script type="text/javascript" src='{% static 'posts/post_list.js' %}?{% now "U" %}'></script>
+
+    </div>
+
+  </div>
 
   </body>
 </html>

@@ -8,9 +8,11 @@
     {% include "header.html" %}
     <br><br>
     <h1>{{request.session.email}}</h1>
-    <h1>List of Posts</h1>
-    {% include "list_of_posts.html" %}
-    <script type="text/javascript" src='{% static 'posts/post_list.js' %}?{% now "U" %}'></script>
+    <div class="post_container">
+        <h1 class="list_header">List of Posts <span class="date_header">Date Posted</span></h1>
+        {% include "list_of_posts.html" %}
+        <script type="text/javascript" src='{% static 'posts/post_list.js' %}?{% now "U" %}'></script>
+    </div>
     
     </body>
 </html>

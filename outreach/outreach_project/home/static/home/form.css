@@ -98,3 +98,10 @@ input[type=submit]{
     position:relative;
     display: inline-block;
 }
+
+.email_container {
+    text-align: center;
+}
+#email_send {
+    width: 120px;
+}

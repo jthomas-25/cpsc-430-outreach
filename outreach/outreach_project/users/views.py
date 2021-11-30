@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.core import mail
 from django.db.models import fields
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView
 from .forms import CustomUserChangeForm, CustomUserCreationForm
@@ -12,6 +12,7 @@ from .models import CustomUser
 from posts.models import Post
 from users.admin import CustomUserAdmin
 from django_email_verification import send_email
+from django.core.mail import send_mail
 
 # From home.templatetags import custom_tags # This line imports the templatetags file and allows use of tags
 from home.templatetags import custom_tags
@@ -73,6 +74,9 @@ class user_login(views.LoginView):
 
     def form_valid(self, form):
         login(self.request,form.get_user())
+        self.request.session['is_student'] = form.get_user().is_student
+        self.request.session['is_employer'] = form.get_user().is_employer
+        self.request.session['is_admin'] = form.get_user().is_admin
         self.request.session['user_id'] = form.get_user().id
         self.request.session['email'] = form.get_user().email
         return HttpResponseRedirect(self.get_success_url())
@@ -80,7 +84,7 @@ class user_login(views.LoginView):
     def get_success_url(self):
         return "/"
         #return "/posts/"
-
+@login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
@@ -94,6 +98,9 @@ def user_list(request):
 @login_required
 def user_detail(request):#, user_id):
     user = CustomUser.objects.get(id=request.GET.get("user"))
+    posts= user.posts.all()
+    for post in posts:
+        post.date_posted_str = post.get_date_str(post.date_posted)
     #user = CustomUser.objects.get(id=user_id)
     accountType = getAccountType(user)
     accountStatus = getAccountStatus(user)
@@ -120,7 +127,8 @@ def user_detail(request):#, user_id):
     context = {
         'user': user,
         'accountType' : accountType,
-        'accountStatus': accountStatus
+        'accountStatus': accountStatus,
+        'post_list' : posts
     }
     return render(request,'users/user_detail.html',context)
 
@@ -162,4 +170,27 @@ def getAccountStatus(user):
         accountStatus = "blocked"
     return accountStatus
 
-    
+@login_required
+def account_delete(request):
+    user = CustomUser.objects.get(id = request.session['user_id'])
+    logout(request)
+    user.delete()
+    return HttpResponseRedirect('/')
+
+@login_required
+def contact_user(request,id):
+    if request.method== 'POST':
+        post = Post.objects.get(id=id)
+        to = CustomUser.objects.get(id=post.user_id_id)
+        sender = CustomUser.objects.get(id=request.session['user_id'])
+        print(request.POST.get('body'))
+
+        body = 'From: ' + sender.email + '\n' + request.POST.get('body')
+        try:
+            send_mail(request.POST.get('subject'),body,sender.email,[to.email])
+            return HttpResponse('Success!')
+        except(e):
+            return HttpResponse("Unsuccesful")
+
+    return render(request,'contact_user.html')
+

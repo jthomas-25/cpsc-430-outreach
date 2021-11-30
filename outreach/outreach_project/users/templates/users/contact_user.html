@@ -1,0 +1,28 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href='{% static  'home/form.css' %}?{% now "U" %}'>
+    </head>
+    <body>
+        {% include "header.html" %}
+        <br><br>
+
+        <div class=email_container>
+            <h1 class="email_header">Contact Employer</h1>
+            <p>For security reasons, employer email will be hidden.</p>
+            <p>Your email will be provided to the employer, if you like, you may include your cell phone in the email body.</p>
+            <form class="email_form" method="post">
+                {% csrf_token %}
+                <input type="text" name="subject" placeholder="Email Subject"/>
+                <br><br>
+                <textarea name="body" value="Body" placeholder="Email Body"></textarea>
+                <br>
+                <input type="submit" name="send" value="Send Email" id="email_send"/>
+            </form>
+        </div>
+
+
+
+
+    </body>
+</html>

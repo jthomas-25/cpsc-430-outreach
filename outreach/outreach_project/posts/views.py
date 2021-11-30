@@ -23,6 +23,7 @@ from home.templatetags import custom_tags
 @login_required
 def post_list(request):
     posts = Post.objects.all()
+    posts = posts.exclude(status="pending")
     for post in posts:
         post.date_posted_str = post.get_date_str(post.date_posted)
     user = CustomUser.objects.get(id=request.session.get('user_id'))
@@ -152,12 +153,16 @@ def search2(request):
         results = Post.objects.all()
         if sort_date != "none":
             results = results.filter(date_posted__gte=date_range)
+        results = results.exclude(status="pending")
         context['results'] = results
+        if len(context['results']) == 0:
+            context['results']="no_results"
         return render(request,'search2.html',context)
 
     if filter == "none":
         results = Post.objects.filter(
-            Q(description__icontains=query) | Q(title__icontains=query) | Q(job_type__icontains=query)
+            Q(description__icontains=query) | Q(title__icontains=query) | 
+            Q(job_type__icontains=query)
         )
         context['results'] = results
     elif filter == "title":
@@ -179,7 +184,8 @@ def search2(request):
     if sort_date != "none":
         context['results'] = results.filter(date_posted__gte=date_range)
 
-    if len(results) == 0:
+    context['results'] = context['results'].exclude(status="pending")
+    if len(context['results']) == 0:
         context['results']="no_results"
 
 

@@ -1,35 +1,48 @@
 <html>
-    <head>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href='{% static 'home/default_list.css' %}?{% now "U" %}'>
+   <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href='{% static  'users/user_detail.css' %}?{% now "U" %}'>
     </head>
-    <body>
+   <body>
 
     {% include 'header.html' %}
     <br><br>
 
-    {% if user.is_student %}
-        <h2>Student profile for {{user.email}}</h2>
-        <p>Graduation Date: {{user.graduation_date}}</p>
-    {% elif user.is_employer %}
-        <h2>Employer profile for {{user.email}}</h2>
-    {% else %}
-        <h2>User profile for {{user.email}}</h2>
-    {% endif %}
+    <div class="wrapper">
 
-    {% if user.is_pending %}
-        <p>Account is still pending Admin Approval</p>
-    {% else %}
-        <p>Date Joined: {{user.date_joined}}</p>
-    {% endif %}
-    <a href="/users/edit/{{user.id}}" class="button">Edit Profile</a>
-    <h3>Bio:</h3>
-    <p>{{user.bio}}</p>
-    <br/>
+        <div class="options_container">
+            <a href="/users/edit/{{user.id}}" class="button">Edit Profile</a>
+            <br>
+            <a type="submit" href="/users/myprofile/delete/" class="button" onclick="return confirm('Are you sure you want to permenantly delete your account?')">Delete Account?</a>
+        </div>    
 
-    <h2>My posts</h2>
-    {% include "posts/list_of_posts.html" %}
-    <script type="text/javascript" src='{% static 'posts/post_list.js' %}'></script>
+        <div class="user">
+            {% if user.is_student %}
+                <h2>Student profile for {{user.email}}</h2>
+                <p>Graduation Date: {{user.graduation_date}}</p>
+            {% elif user.is_employer %}
+                <h2>Employer profile for {{user.email}}</h2>
+            {% else %}
+                <h2>User profile for {{user.email}}</h2>
+            {% endif %}
+
+            {% if user.is_pending %}
+                <p>Account is still pending Admin Approval</p>
+            {% else %}
+                <p>Date Joined: {{user.date_joined}}</p>
+            {% endif %}
+            <h3>Bio:</h3>
+            <p>{{user.bio}}</p>
+            <br/>
+
+            {% if post_list %}
+            <h2 class="list_header">My posts <span class="date_header">Date Posted</span></h2>
+            {% include "posts/list_of_posts.html" %}
+            <script type="text/javascript" src='{% static 'posts/post_list.js' %}'></script>
+            {% endif %}
+        </div>
+
+    </div>
 
     </body>
 </html>
