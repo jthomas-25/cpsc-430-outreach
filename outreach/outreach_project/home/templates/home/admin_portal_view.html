@@ -6,26 +6,53 @@
 </head>
 <body class="body">
 {% include "header.html" %}
+<br><br>
     <h1>Admin Portal</h1>
 
     <h2>Pending Posts</h2>
-<ul class="list">
-     {% for post in posts %}
-        <li class="list_items">
-        <input id="expandable" class="toggle" type="checkbox">
-        <label for="expandable" class="lbl_toggle">{{post.title}}</label>
+    {% if posts %}
+        <ul class="list">
+            {% for post in posts %}
+                <li class="list_items">
+                <input id="expandable" class="toggle" type="checkbox">
+                <label for="expandable" class="lbl_toggle">{{post.title}}</label>
 
-        <div class="collapsable_content">
-            <a href="/posts/{{post.id}}/" class="button">View Post</a>
-            <p>Description</p>
-            <p>{{post.description}}</p>
+                <div class="collapsable_content">
+                    <a href="/posts/{{post.id}}/" class="button">View Post</a>
+                    <p>Description</p>
+                    <p>{{post.description}}</p>
 
-       </div>
-        </li>
-    {% endfor %}
-</ul>
+            </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <p style="padding-left: 2%;">There are no pending posts</p>
+    {% endif %}
+
+<h2>Blocked Posts</h2>
+{% if blocked_posts %}
+    <ul class="list">
+        {% for post in blocked_posts %}
+            <li class="list_items">
+            <input id="expandable" class="toggle" type="checkbox">
+            <label for="expandable" class="lbl_toggle">{{post.title}}</label>
+
+            <div class="collapsable_content">
+                <a href="/posts/{{post.id}}/" class="button">View Post</a>
+                <p>Description</p>
+                <p>{{post.description}}</p>
+
+        </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+<p style="padding-left: 2%;">There are no blocked posts</p>
+{% endif %}
 
     <h2>Pending Users</h2>
+{% if users %}
     <ul class="list">
         {% for user in users %}
         <li class = "list_items">
@@ -39,6 +66,9 @@
         </li>
         {% endfor %}
     </ul>
+{% else %}
+    <p style="margin-left: 2%;">There are no pending users</p>
+{% endif %}
 </body>
 
 <script type="text/javascript">

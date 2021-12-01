@@ -16,6 +16,10 @@
 .list_items:last-child {
     border-bottom: none;
 }
+.list_items:first-child {
+    border-bottom: 1px solid white;
+}
+
 .list_items:hover {
     background-color: #2d5b8b;
 }

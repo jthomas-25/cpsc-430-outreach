@@ -21,7 +21,8 @@ def home(request):
 
 def admin_portal(request):
     posts = Post.objects.filter(status="pending")
+    blocked_posts= Post.objects.filter(status="blocked")
     users = CustomUser.objects.filter(is_pending=True)
-    context = {'posts':posts,'users':users}
+    context = {'posts':posts,'users':users,'blocked_posts':blocked_posts}
     return render(request,'admin_portal_view.html',context)
 
