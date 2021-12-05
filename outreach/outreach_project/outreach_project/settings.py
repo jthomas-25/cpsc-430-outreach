@@ -144,6 +144,7 @@ SESSION_COOKIE_AGE = 1800
 # Email
 def verified_callback(user):
     user.is_active = True
+    user.is_pending = False
 
 
 EMAIL_VERIFIED_CALLBACK = verified_callback

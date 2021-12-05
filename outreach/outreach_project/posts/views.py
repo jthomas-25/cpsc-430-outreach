@@ -69,7 +69,7 @@ def post_detail(request, id):
                 post.save()
             elif denyPostButtonClicked:
                 post.delete()
-                return redirect("/")
+                return redirect("/posts/")
             elif blockPostButtonClicked:
                 post.status = "blocked"
                 post.save()

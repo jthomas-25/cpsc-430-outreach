@@ -19,7 +19,7 @@
 
         <div class="collapsable_content">
             <a href="/users/view/?user={{user.id}}" class="button">View User </a>
-            {% if user.is_pending %}
+            {% if not user.is_active %}
               <p>Status: Pending</p>
             {% else %}
               <p>Status: Active</p>

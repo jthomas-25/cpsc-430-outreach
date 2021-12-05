@@ -16,7 +16,10 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('email',"graduation_date",'bio')
         widgets = {
             'graduation_date':forms.SelectDateWidget(
-                empty_label=("Choose Year","Choose Month","Choose Day"))
+                empty_label=("Choose Year","Choose Month","Choose Day")),
+            'bio':forms.Textarea(attrs = {'placeholder': "Enter a bio"}),
+            'email':forms.TextInput(attrs= {'placeholder': "Email"})
+            
             }
         
         

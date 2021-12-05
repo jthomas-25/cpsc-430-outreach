@@ -127,9 +127,11 @@ body a{
     margin: 10px;
     padding-top: 0;
     font-size: 15px;
+    width: 130;
 }
 
 #delete_button {
+    width: 130px;
     margin: 10px;
     padding-top: 0;
     font-size: 15px;
@@ -139,6 +141,7 @@ body a{
   margin: 10px;
   padding-top: 0;
   font-size: 15px;
+  width: 130px;
 }
 
 #contact_button {
@@ -146,7 +149,7 @@ body a{
   padding-top: 4px;
 }
 #delete_account {
-  width: 112px;
+  width: 130px;
   height: 28px;
   padding: 0;
 }

@@ -33,6 +33,7 @@ def user_create(request):
 
             user = form.save()
             user.is_active = False
+            user.is_pending = True
             send_email(user)
 
             #Get data from the email field
