@@ -11,7 +11,7 @@ from .managers import CustomUserManager
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(_('email address'),unique=True)
     #Set to True
-    is_pending = models.BooleanField(default=False)
+    is_pending = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     is_blocked = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
