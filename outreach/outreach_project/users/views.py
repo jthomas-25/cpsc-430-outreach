@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.core import mail
 from django.db.models import fields
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView
 from .forms import CustomUserChangeForm, CustomUserCreationForm
@@ -59,16 +59,19 @@ def user_create(request):
 
 @login_required
 def user_edit(request,id):
-    user = CustomUser.objects.get(id=id)
-    if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST,instance=request.user,is_student=user.is_student)
-        if form.is_valid():
-            user = form.save()
-            request.session['email'] = user.email
-            return redirect("/users/myprofile/")
+    if request.session['user_id'] == int(id) or request.session['is_admin']: 
+        user = CustomUser.objects.get(id=id)
+        if request.method == 'POST':
+            form = CustomUserChangeForm(request.POST,instance=request.user,is_student=user.is_student)
+            if form.is_valid():
+                user = form.save()
+                request.session['email'] = user.email
+                return redirect("/users/myprofile/")
+        else:
+            form = CustomUserChangeForm(instance=request.user,is_student=user.is_student)
+        return render(request,'user_change_form.html',{'form':form})
     else:
-        form = CustomUserChangeForm(instance=request.user,is_student=user.is_student)
-    return render(request,'user_change_form.html',{'form':form})
+        return HttpResponseRedirect('/','Permission Denied')
 
 class user_login(views.LoginView):
     template_name = 'user_login_form.html'
@@ -94,7 +97,7 @@ def user_logout(request):
 @login_required
 def user_list(request):
     users = CustomUser.objects.all()
-    return render(request,'users/user_list.html',{'users':users})
+    return render(request,'user_list.html',{'users':users})
 
 @login_required
 def user_detail(request):#, user_id):
@@ -131,7 +134,7 @@ def user_detail(request):#, user_id):
         'accountStatus': accountStatus,
         'post_list' : posts
     }
-    return render(request,'users/user_detail.html',context)
+    return render(request,'user_detail.html',context)
 
 #@custom_tags.admin
 def approveAccount(user):

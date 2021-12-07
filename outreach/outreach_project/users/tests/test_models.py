@@ -6,13 +6,11 @@ from users.models import CustomUser
 class UserModelTestClass(TestCase):
     @classmethod
     def setUpTestData(cls):
-        print('setUpTestData')
         baseUser = CustomUser.objects.create(email='bennm23@gmail.com',bio='Test Bio')
         studentUser = CustomUser.objects.create(email='user@mail.umw.edu',graduation_date= '2022-01-01' )
         pass
     
     def setUp(self):
-        print('setUp')
         pass
     def test_email_label(self):
         base = CustomUser.objects.get(id = 1)
