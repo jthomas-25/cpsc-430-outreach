@@ -10,12 +10,10 @@
     <li><a class="active" href="/">UMW Connect</a></li>
         <div class="header-right">
             {% if request.session.user.is_employer %}
-                <li><a href="/posts/">View Posts</a></li>
                 <li><a href="/posts/create/">Create Post</a></li>
             {% elif request.session.user.is_student %}
                 <li><a href="/posts/search/">Search Posts</a></li>
             {% elif user.is_admin %}
-                <li><a href="/posts/">View Posts</a></p></li>
                 <li><a href="/posts/create/">Create Post</a></li>
                 <li><a href="/posts/search/">Search Posts</a></li>
                 <li><a href="/users/">View Users</a></li>

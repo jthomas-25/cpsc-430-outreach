@@ -1,8 +1,9 @@
-from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth import get_user_model, login, logout, update_session_auth_hash
 from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.core import mail
+from django.core.checks import messages
 from django.db.models import fields
 from django.http.response import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -73,6 +74,21 @@ def user_edit(request,id):
     else:
         return HttpResponseRedirect('/','Permission Denied')
 
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        user = CustomUser.objects.get(id = request.session['user_id'])
+        form = PasswordChangeForm(user,request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request,user)
+            messages.Info(request,'Your password was succesfully changed!')
+            return redirect('/users/myprofile/')
+        else:
+            messages.Error(request,'Please correct the error to change password.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request,'change_password_form.html',{'form':form})
 class user_login(views.LoginView):
     template_name = 'user_login_form.html'
 

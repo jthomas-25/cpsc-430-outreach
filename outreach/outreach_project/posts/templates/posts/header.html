@@ -12,12 +12,10 @@
         <div class="header-right">
 
             {% if request.session.is_employer %}
-                <li><a href="/posts/">View Posts</a></li>
                 <li><a href="/posts/create/">Create Post</a></li>
             {% elif request.session.is_student %}
                 <li><a href="/posts/search/">Search Posts</a></li>
             {% elif request.user.is_admin %}
-                <li><a href="/posts/">View Posts</a></p></li>
                 <li><a href="/posts/create/">Create Post</a></li>
                 <li><a href="/posts/search/">Search Posts</a></li>
                 <li><a href="/users/">View Users</a></li>
