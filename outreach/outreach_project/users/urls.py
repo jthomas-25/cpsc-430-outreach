@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import contact_user, user_list, user_create, user_edit, user_login, user_logout, user_detail,user_profile, account_delete
+from .views import change_password,contact_user, user_list, user_create, user_edit, user_login, user_logout, user_detail,user_profile, account_delete
 from django.contrib import admin
 from django_email_verification import urls as email_urls
 
@@ -16,6 +16,7 @@ urlpatterns = [
     path('email/', include(email_urls)),
     path('myprofile/delete/',account_delete),
     path('contact/<id>',contact_user),
+    path('changePassword/',change_password)
     #path('<id>/',user_detail),
 
 ]
