@@ -22,7 +22,8 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('posts/')
+        return '/posts/' + str(self.id)
+        #return reverse('posts/')
     
     def get_date_str(self, date):
         if date:
